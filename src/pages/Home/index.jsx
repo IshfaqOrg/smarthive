@@ -19,10 +19,10 @@ const Home = () => {
               <img src={pattern} />
             </div>
           </div>
-          <div className="absolute bottom-0 inset-x-0  transform -translate-x-36 ">
+          <div className="absolute bottom-0 right-0 left-1/2 transform  sm: ">
             <img src={patternBottom} className="" />
           </div>
-          //
+
           {/* <div className="smartForm">
             <Card className="p-0 m-0"></Card>
           </div> */}
