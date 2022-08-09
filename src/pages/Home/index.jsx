@@ -19,7 +19,7 @@ const Home = () => {
               <img src={pattern} />
             </div>
           </div>
-          <div className="absolute bottom-0 right-0 left-1/2 transform  sm: ">
+          <div className="absolute bottom-0 right-0  transform  sm: ">
             <img src={patternBottom} className="" />
           </div>
 
