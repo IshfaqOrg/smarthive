@@ -1,3 +1,23 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+@import url("https://fonts.googleapis.com/css2?family=Manrope:wght@700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Manrope:wght@300&display=swap");
+
+.formFields {
+  font-family: "Manrope";
+}
+.input-group-text {
+  background-color: #272b30 !important;
+  border-radius: 14px;
+  border-color: #404656 !important;
+}
+
+input select {
+  background-color: #272b30 !important;
+  border-radius: 14px;
+}
+
+.industryOption {
+  padding: 5px;
+}

@@ -1,4 +1,5 @@
 /** @type {import('tailwindcss').Config} */
+
 module.exports = {
   content: ['./src/**/*.{js,jsx,ts,tsx}'],
   theme: {
@@ -7,6 +8,9 @@ module.exports = {
         'theme-black': '#111315',
       },
     },
+    fontFamily:{
+      'body':["Manrope"]
+    }
   },
   plugins: [],
 };
