@@ -1,14 +1,14 @@
-import React from "react";
-import logo from "../../assets/images/logo/logo.png";
-import pattern from "../../assets/images/pattern-right.png";
-import patternBottom from "../../assets/images/pattern-bottom.png";
+import React from 'react';
+import logo from '../../assets/images/logo/logo.png';
+import pattern from '../../assets/images/pattern-right.png';
+import patternBottom from '../../assets/images/pattern-bottom.png';
 // import { Card, CardContent } from "@mui/material";
 
-const Home = () => {
+function Home() {
   return (
     <div className="h-screen p-0 m-0 bg-theme-black">
       <div className="h-full md:flex ">
-        <div className="leftSection w-full bg-[#1a1d1f]"></div>
+        <div className="leftSection w-full bg-[#1a1d1f]" />
 
         <div className="rightSection  w-full relative">
           <div className="md:flex  ">
@@ -30,6 +30,6 @@ const Home = () => {
       </div>
     </div>
   );
-};
+}
 
 export default Home;

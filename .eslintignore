@@ -1,0 +1,4 @@
+node_modules
+jwtService.js
+build
+*.test.js
