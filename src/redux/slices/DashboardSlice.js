@@ -1,11 +1,11 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
   count: 0,
 };
 
 export const dashboardSlice = createSlice({
-  name: "dashboard",
+  name: 'dashboard',
   initialState,
   reducers: {
     increment: (state) => {
