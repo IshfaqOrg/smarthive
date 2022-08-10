@@ -1,8 +1,4 @@
-<<<<<<< Updated upstream
-import { dashboardReducers } from '../slices/DashboardSlice';
-=======
-import { registrationReducer } from "../slices/RegistrationSlice";
->>>>>>> Stashed changes
+import { registrationReducer } from '../slices/RegistrationSlice';
 
 export const rootReducer = {
   registration: registrationReducer,

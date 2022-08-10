@@ -1,19 +1,9 @@
-<<<<<<< Updated upstream
-import React from 'react';
-import { Routes, Route } from 'react-router-dom';
-import AppRoutes from './routes';
-import AuthMiddleware from './middleware/authmiddleware';
-import PageNotFound from '../pages/PageNotFound';
-
-function Router() {
-=======
-import React, { Children } from "react";
+import React, { Routes, Route } from "react-router-dom";
 import AppRoutes from "./routes";
-import { Routes, Route } from "react-router-dom";
 import AuthMiddleware from "./middleware/authmiddleware";
 import PageNotFound from "../pages/PageNotFound";
-const Router = () => {
->>>>>>> Stashed changes
+
+function Router() {
   return (
     <Routes>
       {AppRoutes.map((route, index) => (
