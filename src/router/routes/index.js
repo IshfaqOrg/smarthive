@@ -16,11 +16,19 @@ const AppRoutes = [
   },
   {
     path: appRoutes.Form,
-    component: lazy(() => import("../../Form/components/Form")),
+    component: lazy(() => import('../../Form/components/Form')),
     meta: {
       isPublicRoute: true,
     },
-  }
+  },
+  {
+      path: appRoutes.GetOtp,
+      component: lazy(() => import('../../Form/components/GetOtp')),
+      meta: {
+        isPublicRoute: true,
+  },
+    
+  },
 ];
 
 export default AppRoutes;

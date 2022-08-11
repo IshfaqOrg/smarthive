@@ -4,6 +4,7 @@
 @import url("https://fonts.googleapis.com/css2?family=Manrope:wght@700&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Manrope:wght@300&display=swap");
 
+
 .formFields {
   font-family: "Manrope";
 }
@@ -20,4 +21,14 @@ input select {
 
 .industryOption {
   padding: 5px;
+}
+.btn{
+  background : linear-gradient( 90.66deg, #e07344 0%, #e09844 100%) !important; 
+}
+.text-sign{
+  text-align: center !important;
+  z-index: 1 !important;
+}
+.pattern-bottom{
+  z-index: 0 !important;
 }

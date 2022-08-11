@@ -1,21 +1,21 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
   authenticate: {
     isLoggedIn:
-      !!localStorage.getItem("token") &&
-      localStorage.getItem("userDetails") &&
-      Object.keys(localStorage.getItem("userDetails")).length,
-    token: localStorage.getItem("token"),
+      !!localStorage.getItem('token')
+      && localStorage.getItem('userDetails')
+      && Object.keys(localStorage.getItem('userDetails')).length,
+    token: localStorage.getItem('token'),
     loading: false,
   },
   form: {
-    fullName: "",
-    email: "",
-    industry: "",
-    phoneNumber: "",
-    otp: "",
-    authType: "email",
+    fullName: '',
+    email: '',
+    industry: '',
+    phoneNumber: '',
+    otp: '',
+    authType: 'email',
     resetForm: false,
     resetOtpForm: false,
   },
@@ -24,17 +24,23 @@ const initialState = {
     company: null,
     loading: false,
     error: false,
-    message: "",
+    message: '',
     isOtpVerified: false,
-    data: JSON.parse(localStorage.getItem("userDetails")) || {},
+    data: JSON.parse(localStorage.getItem('userDetails')) || {},
   },
 };
 
 export const registrationSlice = createSlice({
-  name: "registration",
+  name: 'registration',
   initialState,
-  reducers: {},
+  reducers: {
+    fillForm: (state, action) => {
+      console.log("state",state)
+      state.form = { ...state.form, ...action?.payload };
+      console.log("form of state",state.from)
+    },
+  },
 });
 
-export const registrationAction = registrationSlice.actions;
+export const { fillForm } = registrationSlice.actions;
 export const registrationReducer = registrationSlice.reducer;

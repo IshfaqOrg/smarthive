@@ -1,20 +1,19 @@
 import React, { Suspense } from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
-
 import { Provider } from 'react-redux';
 import reportWebVitals from './reportWebVitals';
-import { store } from './redux/store';
+import store from './redux/store';
 import Loader from './pages/LoaderPage';
 
-const App = React.lazy(() => import('./App'));
+const LazyApp = React.lazy(() => import('./App'));
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
     <Provider store={store}>
       <Suspense fallback={<Loader />}>
-        <App />
+        <LazyApp />
       </Suspense>
     </Provider>
   </React.StrictMode>,

@@ -1,14 +1,14 @@
-import React, { Routes, Route } from "react-router-dom";
-import AppRoutes from "./routes";
-import AuthMiddleware from "./middleware/authmiddleware";
-import PageNotFound from "../pages/PageNotFound";
+import React, { Routes, Route } from 'react-router-dom';
+import AppRoutes from './routes';
+import AuthMiddleware from './middleware/authmiddleware';
+import PageNotFound from '../pages/PageNotFound';
 
 function Router() {
   return (
     <Routes>
-      {AppRoutes.map((route, index) => (
+      {AppRoutes.map((route) => (
         <Route
-          key={index}
+          key={route.path}
           path={route.path}
           element={<AuthMiddleware route={route} />}
         />

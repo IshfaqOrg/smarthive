@@ -19,6 +19,8 @@
     ],
     "rules": {
         "react/jsx-filename-extension":"warn",
-        "react/prop-types":"warn"
+        "react/prop-types":"warn",
+        "no-param-reassign":"off",
+        
     }
 }
