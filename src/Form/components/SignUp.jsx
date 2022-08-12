@@ -13,7 +13,7 @@ import emailIcon from '../../assets/images/icons/Message.png';
 import companyIcon from '../../assets/images/icons/Globe.png';
 import { fillForm } from '../../redux/slices/RegistrationSlice';
 
-function SignUp() {
+function SignUp({ setSignUp }) {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const registrationData = useSelector((state) => state?.registration);
@@ -30,14 +30,14 @@ function SignUp() {
   // const [backButtonClicked, setBackButtonClicked] = useState(false);
   // const ref = useRef(null);
 
-  //inital values for the form 
+  // inital values for the form
   const initialValues = {
     fullName: '',
     email: '',
     industry: '',
     industryType: '',
   };
-  //Validation schema
+  // Validation schema
   const validationSchema = Yup.object({
     fullName: Yup.string().required('Your full name is required'),
     email: Yup.string().email()
@@ -46,14 +46,13 @@ function SignUp() {
     industry: Yup.string().required('Company name is mandatory !'),
     industryType: Yup.string().required('Industry type is mandatory !'),
   });
-  //form using formik
+  // form using formik
   const formik = useFormik({
     initialValues,
     validationSchema,
     // validateOnBlur: true,
     enableReinitialize: true,
     onSubmit: (values) => {
-      console.log("HIh")
       const data = {
         fullName: values.fullName,
         email: values.email,
@@ -62,12 +61,12 @@ function SignUp() {
       };
       dispatch(fillForm(data));
       setIsLoading(true);
-      navigate('/GetOtp')
-      console.log(registrationData.form)
+      // navigate('/GetOtp')
       setIsLoading(false);
+      setSignUp(false);
     },
   });
-  //data for the inputs that are to bre rendered
+  // data for the inputs that are to bre rendered
   const inputData = [{
     icon: profileIcon,
     alt: 'profile picture',
@@ -90,26 +89,23 @@ function SignUp() {
     key: 'input 3',
   },
   ];
-  //Hooks
+  // Hooks
 
+  // In case user's reached form through invitation,in such case code will be generated in URL,
+  // the email will be set, it will be checked if reducer has email or not,
+  //  in case it does we will set the values of form
 
-  //In case user's reached form through invitation,in such case code will be generated in URL,  the email will be set, it will be checked if reducer has email or not, in case it does we will set the values of form
-
-  
-
-  useEffect(()=>{
-    if(registrationData.userDetails.userEmail){
+  useEffect(() => {
+    if (registrationData.userDetails.userEmail) {
       formik.setValues({
         industry: registrationData.userDetails?.company.company_name,
         industryType: registrationData.userDetails?.company.industry_type,
-        email: registrationData.userDetails?.userEmail
-      })
+        email: registrationData.userDetails?.userEmail,
+      });
     }
-    //understand this from ishfaq sir 
+    // understand this from ishfaq sir
     setDisabled(registrationData.userDetails);
-    
-  },[registrationData.userDetails.userEmail])
-   
+  }, [registrationData.userDetails.userEmail]);
 
   return (
     <div className="px-2 ">
@@ -152,11 +148,14 @@ function SignUp() {
                       ),
                     }}
                   />
-                  <div className="mb-1" style={{ color:'white' ,fontSize: 12 }}>
+                  <div className="mb-1" style={{ color: 'white', fontSize: 12 }}>
                       &nbsp;
-                      {formik.touched[e.value] && formik.errors[e.value] ? (
-                    formik.errors[e.value]
-                  ) : null}  </div>
+                    {formik.touched[e.value] && formik.errors[e.value] ? (
+                      formik.errors[e.value]
+                    ) : null}
+                    {' '}
+
+                  </div>
                 </div>
               ))}
               <div className="mt-1">
@@ -179,11 +178,15 @@ function SignUp() {
                   <MenuItem sx={{ backgroundColor: 'orange' }} value="Medical">Medical</MenuItem>
 
                 </Select>
-                <div className="mb-1" style={{ color:'white', fontSize: 12 }}>  &nbsp;
-                {formik.touched.industryType && formik.errors.industryType ? (
-                  formik.errors.industryType
-                ) : null}</div>
-              
+                <div className="mb-1" style={{ color: 'white', fontSize: 12 }}>
+                  {' '}
+&nbsp;
+                  {formik.touched.industryType && formik.errors.industryType ? (
+                    formik.errors.industryType
+                  ) : null}
+
+                </div>
+
               </div>
               <LoadingButton
                 className="btn p-2 py-2"

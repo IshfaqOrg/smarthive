@@ -35,9 +35,9 @@ export const registrationSlice = createSlice({
   initialState,
   reducers: {
     fillForm: (state, action) => {
-      console.log("state",state)
+      console.log('state', state);
       state.form = { ...state.form, ...action?.payload };
-      console.log("form of state",state.from)
+      console.log('form of state', state.from);
     },
   },
 });

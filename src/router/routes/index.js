@@ -21,14 +21,13 @@ const AppRoutes = [
       isPublicRoute: true,
     },
   },
-  {
-      path: appRoutes.GetOtp,
-      component: lazy(() => import('../../Form/components/GetOtp')),
-      meta: {
-        isPublicRoute: true,
-  },
-    
-  },
+  // {
+  //     path: appRoutes.GetOtp,
+  //     component: lazy(() => import('../../Form/components/GetOtp')),
+  //     meta: {
+  //       isPublicRoute: true,
+  // },
+  // },
 ];
 
 export default AppRoutes;
