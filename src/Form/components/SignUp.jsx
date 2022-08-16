@@ -17,6 +17,7 @@ function SignUp({ setSignUp }) {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const registrationData = useSelector((state) => state?.registration);
+  console.log('In sign up');
   // const authSelector = useSelector((state) => state.registration.authenticate);
   // const userSelector = useSelector(
   //   (state) => state.registration.userDetails.data,
@@ -50,7 +51,6 @@ function SignUp({ setSignUp }) {
   const formik = useFormik({
     initialValues,
     validationSchema,
-    // validateOnBlur: true,
     enableReinitialize: true,
     onSubmit: (values) => {
       const data = {
@@ -103,7 +103,6 @@ function SignUp({ setSignUp }) {
         email: registrationData.userDetails?.userEmail,
       });
     }
-    // understand this from ishfaq sir
     setDisabled(registrationData.userDetails);
   }, [registrationData.userDetails.userEmail]);
 

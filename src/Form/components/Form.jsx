@@ -10,8 +10,6 @@ function Form() {
       setSignUp(true);
     }
   }, [backButtonClicked]);
-
-  console.log('form');
   return (
     <div className=" mt-4 h-2/3 w-2/3 lg:h-3/4 ">
 
@@ -19,6 +17,7 @@ function Form() {
       {signUp ? <SignUp setSignUp={setSignUp} />
         : <AuthenticationType backButtonClicked={setBackButtonClicked} /> }
 
+      {/* <AuthenticationType backButtonClicked={setBackButtonClicked} /> */}
     </div>
   );
 }
