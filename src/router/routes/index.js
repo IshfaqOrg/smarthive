@@ -9,18 +9,18 @@ components which do not require authentication are given true isPublicRoute valu
 const AppRoutes = [
   {
     path: appRoutes.Home,
-    component: lazy(() => import('../../pages/Home')),
+    component: lazy(() => import('../../pages/SignUp')),
     meta: {
       isPublicRoute: true,
     },
   },
-  {
-    path: appRoutes.Form,
-    component: lazy(() => import('../../Form/components/Form')),
-    meta: {
-      isPublicRoute: true,
-    },
-  },
+  // {
+  //   path: appRoutes.Form,
+  //   component: lazy(() => import('../../Form/components/Form')),
+  //   meta: {
+  //     isPublicRoute: true,
+  //   },
+  // },
   // {
   //     path: appRoutes.GetOtp,
   //     component: lazy(() => import('../../Form/components/GetOtp')),

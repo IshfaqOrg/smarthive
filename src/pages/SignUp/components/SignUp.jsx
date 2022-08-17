@@ -1,23 +1,25 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router';
 import { useDispatch, useSelector } from 'react-redux';
 import * as Yup from 'yup';
 import { Formik, Form, useFormik } from 'formik';
 import {
-  InputAdornment, MenuItem, Select, TextField, Typography,
+  Autocomplete,
+  Box, InputBase, MenuItem, Paper, Select, TextField, Typography,
 } from '@mui/material';
 import { LoadingButton } from '@mui/lab';
-import { Link, Navigate } from 'react-router-dom';
-import profileIcon from '../../assets/images/icons/Profile.png';
-import emailIcon from '../../assets/images/icons/Message.png';
-import companyIcon from '../../assets/images/icons/Globe.png';
-import { fillForm } from '../../redux/slices/RegistrationSlice';
+import { Link } from 'react-router-dom';
 
-function SignUp({ setSignUp }) {
-  const navigate = useNavigate();
+import profileIcon from '../../../assets/images/icons/Profile.png';
+import emailIcon from '../../../assets/images/icons/Message.png';
+import companyIcon from '../../../assets/images/icons/Globe.png';
+import { fillForm } from '../../../redux/slices/RegistrationSlice';
+
+const industryOptions = ['Financial', 'SLED', 'Medical'];
+function SignUp({ setSignUp, formData, setFormData }) {
   const dispatch = useDispatch();
   const registrationData = useSelector((state) => state?.registration);
-  console.log('In sign up');
+
   // const authSelector = useSelector((state) => state.registration.authenticate);
   // const userSelector = useSelector(
   //   (state) => state.registration.userDetails.data,
@@ -37,6 +39,7 @@ function SignUp({ setSignUp }) {
     email: '',
     industry: '',
     industryType: '',
+    ...formData,
   };
   // Validation schema
   const validationSchema = Yup.object({
@@ -60,7 +63,8 @@ function SignUp({ setSignUp }) {
         industryType: values.industryType,
       };
       dispatch(fillForm(data));
-      setIsLoading(true);
+      // setIsLoading(true);
+      setFormData(data);
       // navigate('/GetOtp')
       setIsLoading(false);
       setSignUp(false);
@@ -85,7 +89,7 @@ function SignUp({ setSignUp }) {
     icon: companyIcon,
     alt: 'industry picture',
     value: 'industry',
-    placeholder: 'Your industry...',
+    placeholder: 'Your Company Name...',
     key: 'input 3',
   },
   ];
@@ -107,7 +111,7 @@ function SignUp({ setSignUp }) {
   }, [registrationData.userDetails.userEmail]);
 
   return (
-    <div className="px-2 ">
+    <div className="px-2  ">
       <div className="intro  mb-3  ">
         <h4 className="text-2xl font-bold text-white mt-3 font-body">Welcome to Smart Hive</h4>
         <h6 className="text-[#99a1ac] text-sm font-body">The best zero password system to keep our customer secure</h6>
@@ -120,33 +124,43 @@ function SignUp({ setSignUp }) {
             <div className="signupInput justify-center">
               {inputData.map((e) => (
                 <div className="mt-1" key={e.key}>
-                  <TextField
-                    name={e.value}
-                    className="w-full bg-[#283046] input-group-text"
-                    variant="outlined"
-                    autoComplete="off"
-                    onChange={formik.handleChange}
-                    onBlur={formik.handleBlur}
-                    value={formik.values[e.value]}
-                    placeholder={e.placeholder}
-                    size="small"
-                    sx={{ input: { color: 'white' } }}
-                    InputProps={{
-                      startAdornment: (
-                        <InputAdornment
-                          position="start"
-                          sx={{
-                            backgroundColor: (theme) => theme.palette.divider,
-                            borderTopLeftRadius: (theme) => `${theme.shape.borderRadius}px`,
-                            borderBottomLeftRadius: (theme) => `${theme.shape.borderRadius}px`,
-                          }}
-                        >
-                          <img src={e.icon} alt={e.placeholder} />
-                        </InputAdornment>
-
-                      ),
+                  <Paper
+                    className="w-full !rounded-md !rounded-l-2xl"
+                    sx={{
+                      border: 1,
+                      display: 'flex',
+                      alignItems: 'center',
+                      height: '44px',
+                      borderColor: '#656669',
+                      backgroundColor: '#283046',
                     }}
-                  />
+                  >
+                    <Box
+                      className="rounded-l-2xl"
+                      sx={{
+                        height: '100%',
+                        backgroundColor: '#272b30',
+                        // backgroundColor: (theme) => theme.palette.divider,
+                        // borderTopLeftRadius: (theme) => `${theme.shape.borderRadius}px`,
+                        // borderBottomLeftRadius: (theme) => `${theme.shape.borderRadius}px`,
+                        p: '12px',
+                      }}
+                      aria-label="menu"
+                    >
+                      <img src={e.icon} alt={e.placeholder} style={{ alignSelf: 'center' }} />
+
+                    </Box>
+                    <InputBase
+                      name={e.value}
+                      className="bg-[#283046] w-full rounded-lg "
+                      sx={{ height: '100%', input: { fontSize: '14px', color: 'white' } }}
+                      onChange={formik.handleChange}
+                      onBlur={formik.handleBlur}
+                      // inputProps={{ className:  }}
+                      value={formik.values[e.value]}
+                      placeholder={e.placeholder}
+                    />
+                  </Paper>
                   <div className="mb-1" style={{ color: 'white', fontSize: 12 }}>
                       &nbsp;
                     {formik.touched[e.value] && formik.errors[e.value] ? (
@@ -158,7 +172,48 @@ function SignUp({ setSignUp }) {
                 </div>
               ))}
               <div className="mt-1">
-                <Select
+                <Paper
+                  className="w-full !rounded-md !rounded-l-2xl"
+                  sx={{
+                    border: 1,
+                    display: 'flex',
+                    alignItems: 'center',
+                    height: '44px',
+                    borderColor: '#656669',
+                    backgroundColor: '#283046',
+                  }}
+                >
+                  <Box
+                    className="rounded-l-2xl"
+                    sx={{
+                      height: '100%',
+                      backgroundColor: '#272b30',
+                      p: '12px',
+                    }}
+                  >
+                    <img src={companyIcon} alt="Your Company Name..." style={{ alignSelf: 'center' }} />
+
+                  </Box>
+                  <Autocomplete
+                    className="w-full"
+                    options={industryOptions}
+                    renderInput={(params) => (
+                      <div ref={params.InputProps.ref}>
+                        <InputBase
+                          inputProps={{ className: 'w-full' }}
+                          {...params.inputProps}
+                          name="industryType"
+                          onChange={formik.handleChange}
+                          onBlur={formik.handleBlur}
+                          placeholder="Select your industry type"
+                        />
+
+                      </div>
+                    )}
+                  />
+                </Paper>
+
+                {/* <Select
                   className="w-full bg-[#283046] input-group-text"
                   id="outlined-basic"
                   variant="outlined"
@@ -176,7 +231,7 @@ function SignUp({ setSignUp }) {
                   <MenuItem sx={{ backgroundColor: 'orange' }} value="SLED">SLED</MenuItem>
                   <MenuItem sx={{ backgroundColor: 'orange' }} value="Medical">Medical</MenuItem>
 
-                </Select>
+                </Select> */}
                 <div className="mb-1" style={{ color: 'white', fontSize: 12 }}>
                   {' '}
 &nbsp;

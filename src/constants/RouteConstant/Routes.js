@@ -1,7 +1,5 @@
 const appRoutes = {
   Home: '/',
-  Form: '/register',
-  GetOtp: '/getOtp'
 };
 export default appRoutes;
 

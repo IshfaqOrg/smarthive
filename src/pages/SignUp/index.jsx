@@ -2,7 +2,7 @@ import React from 'react';
 import logo from '../../assets/images/logo/logo.png';
 import pattern from '../../assets/images/pattern-right.png';
 import patternBottom from '../../assets/images/pattern-bottom.png';
-import Form from '../../Form/components/Form';
+import Form from './components/Form';
 
 function Home() {
   return (

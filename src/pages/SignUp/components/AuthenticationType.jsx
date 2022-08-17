@@ -1,6 +1,7 @@
 import {
-  Button, FormControl, InputAdornment, ListItemIcon,
-  ListItemText, MenuItem, Select, TextField, Typography,
+  Autocomplete,
+  Button, FormControl, InputAdornment, InputBase, ListItemIcon,
+  ListItemText, MenuItem, Select, TextField,
 } from '@mui/material';
 import React, { useState, useEffect } from 'react';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
@@ -9,11 +10,11 @@ import { useSelector, useDispatch } from 'react-redux';
 import EmailOutlinedIcon from '@mui/icons-material/EmailOutlined';
 import { LoadingButton } from '@mui/lab';
 import * as Yup from 'yup';
-import { fillForm, signUpUser, updateUserAtSignup } from '../../redux/slices/RegistrationSlice';
-import { getCountryCode } from '../../redux/slices/CountrySlice';
-import CountryList from '../../utility/countriesWithFlag';
+import { fillForm, signUpUser, updateUserAtSignup } from '../../../redux/slices/RegistrationSlice';
+import { getCountryCode } from '../../../redux/slices/CountrySlice';
+import CountryList from '../../../utility/countriesWithFlag';
 
-function AuthenticationType({ backButtonClicked }) {
+function AuthenticationType({ backButtonClicked, formData, setFormData }) {
   const dispatch = useDispatch();
   const [isLoading, setIsLoading] = useState(false);
   const [selectedCode, setSelectedCode] = useState('');
@@ -31,7 +32,8 @@ function AuthenticationType({ backButtonClicked }) {
   const country = useSelector((state) => state.country);
   const phoneRegExp = /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/;
   const initialValues = {
-    ...registrationFormDetails,
+    // ...registrationFormDetails,
+    ...formData,
     phoneNumber: registrationFormDetails?.phoneNumber?.replace(selectedCode, ''),
   };
   const validationSchema = selectedValue === 'phone_number'
@@ -260,6 +262,27 @@ function AuthenticationType({ backButtonClicked }) {
                   <div className="flex flex-row items-center w-full">
 
                     <FormControl sx={{ m: 1, minWidth: 120 }} size="small">
+
+                      <Autocomplete
+                        className="w-full bg-[#283046] input-group-text"
+                        options={item}
+                        renderInput={(params) => (
+                          <div ref={params.InputProps.ref}>
+                            <InputBase
+                              inputProps={{ className: 'w-full' }}
+                              {...params.inputProps}
+                              name="industryType"
+                              onChange={formik.handleChange}
+                              onBlur={formik.handleBlur}
+                              value={params.value}
+                              placeholder="+01"
+                              startAdornment={params.flag}
+                            />
+                            {' '}
+
+                          </div>
+                        )}
+                      />
 
                       <Select
                         className="w-full bg-[#283046] input-group-text"
