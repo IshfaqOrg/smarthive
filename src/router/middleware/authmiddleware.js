@@ -6,8 +6,10 @@ import { useNavigate } from 'react-router-dom';
 
 function AuthMiddleware(props) {
   const token = JSON.parse(localStorage.getItem('token'));
+  // eslint-disable-next-line react/prop-types
   const { route } = props;
   const navigate = useNavigate();
+  // eslint-disable-next-line react/prop-types
   const isPublicRoute = route?.meta?.isPublicRoute;
   // we check if the route is public route
   const userRole = 'admin';

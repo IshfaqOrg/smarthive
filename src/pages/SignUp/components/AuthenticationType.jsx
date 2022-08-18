@@ -32,7 +32,7 @@ function AuthenticationType({ backButtonClicked, formData, setFormData }) {
   const country = useSelector((state) => state.country);
   const phoneRegExp = /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/;
   const initialValues = {
-    // ...registrationFormDetails,
+    ...registrationFormDetails,
     ...formData,
     phoneNumber: registrationFormDetails?.phoneNumber?.replace(selectedCode, ''),
   };
@@ -56,12 +56,6 @@ function AuthenticationType({ backButtonClicked, formData, setFormData }) {
         ...values,
         ...registrationUserDetails.userEmail && { apporved: true },
       };
-      // if (!data.phoneNumber) delete data.phoneNumber;
-
-      if (!data.phoneNumber) {
-        delete data.phoneNumber;
-      }
-
       if (data.authType) {
         data.authType = selectedValue?.toLowerCase();
 
@@ -69,16 +63,20 @@ function AuthenticationType({ backButtonClicked, formData, setFormData }) {
           data.phoneNumber = `${selectedCode}${data.phoneNumber}`;
         }
       }
-
+      if (!data.phoneNumber) {
+        delete data.phoneNumber;
+      }
       dispatch(fillForm(data));
+
       setIsLoading(true);
       try {
-        if (backButtonClicked) {
+        if (false) { // edit this
           data = {
             ...data,
             auth0Id: registrationUserDetails.data?.auth0_id,
             userId: registrationUserDetails.data?._id,
           };
+          console.log('Calling APi');
           await dispatch(updateUserAtSignup(data));
         } else await dispatch(signUpUser(data));
         if (selectedValue !== 'phone_number') {
@@ -152,7 +150,7 @@ function AuthenticationType({ backButtonClicked, formData, setFormData }) {
       { true && (
       <Button
         variant="contained"
-        onClick={() => backButtonClicked(true)}
+        onClick={backButtonClicked}
         sx={{
           borderRadius: '8px',
           padding: '5px',
@@ -270,6 +268,7 @@ function AuthenticationType({ backButtonClicked, formData, setFormData }) {
                           <div ref={params.InputProps.ref}>
                             <InputBase
                               inputProps={{ className: 'w-full' }}
+                              // eslint-disable-next-line react/jsx-props-no-spreading
                               {...params.inputProps}
                               name="industryType"
                               onChange={formik.handleChange}

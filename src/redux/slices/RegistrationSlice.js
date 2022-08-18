@@ -1,5 +1,6 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import API from '../../constants/RouteConstant/API';
+import AxiosInstance from '../../services/utils/axios';
 import axios from '../../services/utils/axios';
 
 const initialState = {
@@ -36,7 +37,8 @@ export const signUpUser = createAsyncThunk(
   'registration/signUpUser',
   async (data, { rejectWithValue }) => {
     try {
-      const response = await axios.post(API.signUpUser, data);
+      console.log(data);
+      const response = await AxiosInstance.post(API.signUpUser, data);
       return response.data;
     } catch (err) {
       if (!err.response) {
@@ -107,6 +109,7 @@ export const registrationSlice = createSlice({
       state.userDetails.loading = false;
       state.userDetails.error = false;
       state.userDetails.message = action.payload.message;
+      // eslint-disable-next-line no-unused-expressions
       action.payload.data.prefer_contact === 'email'
         ? (state.form = { ...state.form, resetForm: true })
         : (state.userDetails.data = action.payload.data);

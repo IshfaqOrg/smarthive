@@ -2,7 +2,7 @@ import axios from 'axios';
 import API from '../../constants/RouteConstant/API';
 
 const AxiosInstance = axios.create({
-  baseURL: API.BASE_URL,
+  baseURL: `${API.BASE_URL}/api/v1`,
   headers: {
     'content-type': 'application/json , text/plain',
   },
@@ -30,4 +30,4 @@ AxiosInstance.interceptors.response.use(
     return Promise.reject(error);
   },
 );
-export default axios;
+export default AxiosInstance;

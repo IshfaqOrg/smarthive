@@ -1,5 +1,7 @@
 const appRoutes = {
   Home: '/',
+  Signup: '/signup',
+  Login: '/login',
 };
 export default appRoutes;
 

@@ -10,6 +10,7 @@ const LazyApp = React.lazy(() => import('./App'));
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
+  // eslint-disable-next-line react/jsx-filename-extension
   <React.StrictMode>
     <Provider store={store}>
       <Suspense fallback={<Loader />}>

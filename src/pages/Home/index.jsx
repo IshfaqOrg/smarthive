@@ -1,8 +1,8 @@
 import React from 'react';
+import { Outlet } from 'react-router';
 import logo from '../../assets/images/logo/logo.png';
 import pattern from '../../assets/images/pattern-right.png';
 import patternBottom from '../../assets/images/pattern-bottom.png';
-import Form from './components/Form';
 
 function Home() {
   return (
@@ -19,11 +19,11 @@ function Home() {
             </div>
           </div>
 
-          <div className="pattern-bottom absolute bottom-0 inset-x-0  transform -translate-x-25 ">
-            <img className="pattern-bottom " alt="patter-bottom" src={patternBottom} />
+          <div className="pattern-bottom absolute bottom-0 inset-x-0  transform -translate-x-25 z-0 ">
+            <img className="pattern-bottom relative z-0" alt="patter-bottom" src={patternBottom} />
           </div>
           <div className="h-full flex justify-center items-center smartForm">
-            <Form />
+            <Outlet />
           </div>
         </div>
       </div>
