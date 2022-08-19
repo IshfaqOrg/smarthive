@@ -4,7 +4,7 @@ import * as Yup from 'yup';
 import { Formik, Form, useFormik } from 'formik';
 import {
   Autocomplete,
-  Box, Button, InputBase, Paper, Typography,
+  Box, InputBase, Paper, Typography,
 } from '@mui/material';
 import { LoadingButton } from '@mui/lab';
 import { useNavigate } from 'react-router';
@@ -211,7 +211,7 @@ function SignUp({
                       className="w-full"
                       sx={{ input: { fontSize: '14px', color: 'white' } }}
                       options={industryOptions}
-                      value={formik.values.industryType}
+                      defaultValue={formik.values.industryType}
                       onChange={(e, value) => {
                         formik.setFieldValue('industryType', value.label, true);
                         formik.handleBlur(value.label);

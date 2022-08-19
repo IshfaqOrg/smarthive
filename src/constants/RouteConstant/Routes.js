@@ -2,6 +2,7 @@ const appRoutes = {
   Home: '/',
   Signup: '/signup',
   Login: '/login',
+  Header: '/header',
 };
 export default appRoutes;
 

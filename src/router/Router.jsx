@@ -12,7 +12,7 @@ function Router() {
           path={route.path}
           element={<AuthMiddleware route={route} />}
         >
-          { route?.nestedRoute.length > 0 ? (route.nestedRoute.map((childRoute) => (
+          { route?.nestedRoute?.length > 0 ? (route.nestedRoute.map((childRoute) => (
             <Route
               key={childRoute.path}
               path={childRoute.path}

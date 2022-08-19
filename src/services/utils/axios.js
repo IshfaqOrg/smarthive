@@ -3,9 +3,6 @@ import API from '../../constants/RouteConstant/API';
 
 const AxiosInstance = axios.create({
   baseURL: `${API.BASE_URL}/api/v1`,
-  headers: {
-    'content-type': 'application/json , text/plain',
-  },
 });
 
 AxiosInstance.interceptors.request.use(

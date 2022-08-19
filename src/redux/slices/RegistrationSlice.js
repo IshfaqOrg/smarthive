@@ -1,7 +1,6 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import API from '../../constants/RouteConstant/API';
 import AxiosInstance from '../../services/utils/axios';
-import axios from '../../services/utils/axios';
 
 const initialState = {
   authenticate: {
@@ -34,7 +33,7 @@ const initialState = {
 };
 
 export const signUpUser = createAsyncThunk(
-  'registration/signUpUser',
+  'signUpUser',
   async (data, { rejectWithValue }) => {
     try {
       console.log(data);
@@ -53,7 +52,7 @@ export const getUserByCode = createAsyncThunk(
   'registration/getUserByCode',
   async (data, { rejectWithValue }) => {
     try {
-      const response = await axios.post(API.getUserByCode, data);
+      const response = await AxiosInstance.post(API.getUserByCode, data);
       return response.data;
     } catch (err) {
       if (!err.response) {
@@ -68,7 +67,7 @@ export const updateUserAtSignup = createAsyncThunk(
   'registration/updateUserAtSignup',
   async (data, { rejectWithValue }) => {
     try {
-      const response = await axios.post(API.updateUserAtSignup, data);
+      const response = await AxiosInstance.post(API.updateUserAtSignup, data);
       return response.data;
     } catch (err) {
       if (!err.response) {
@@ -83,7 +82,7 @@ export const getUserDetailsByToken = createAsyncThunk(
   'registeration/getUserDetailsByToken',
   async (token, { rejectWithValue }) => {
     try {
-      const response = await axios.post(API.getUserDetailsByToken, {
+      const response = await AxiosInstance.post(API.getUserDetailsByToken, {
         Authorization: `Bearer ${token}`,
       });
       return response.data;

@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import axios from 'axios';
+import AxiosInstance from '../../services/utils/axios';
 
 const initialState = {
   loading: false,
@@ -8,7 +8,7 @@ const initialState = {
   data: null,
 };
 export const getCountryCode = createAsyncThunk('country/getCountryCode', async () => {
-  const response = await axios.get('https://ipapi.co/json');
+  const response = await AxiosInstance.get('https://ipapi.co/json');
   return response.data;
 });
 const countrySlice = createSlice({

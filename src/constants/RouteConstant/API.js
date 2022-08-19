@@ -1,5 +1,5 @@
 const API = {
-  BASE_URL: 'http://localhost:3001',
+  BASE_URL: 'http://127.0.0.1:3001',
   signUpUser: 'auth/signup',
   getUserByCode: 'auth/invite-code',
   updateUserAtSignup: 'auth/update-signup',

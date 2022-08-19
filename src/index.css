@@ -38,3 +38,16 @@ input:-webkit-autofill:focus,
 input:-webkit-autofill:active {
     transition: background-color 5000s ease-in-out 0s;
 }
+
+.menu-tabs .nav-item a {
+  color: #6a727d !important;
+  border-radius: 8px;
+  font-size: 14px;
+  font-family: "Manrope";
+}
+
+.menu-tabs .nav-item .active {
+  color: #fff !important;
+  padding: 7px 10px 7px 10px;
+  background-color: #272b30 !important;
+}

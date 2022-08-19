@@ -27,6 +27,12 @@ const AppRoutes = [
     meta: {
       isPublicRoute: true,
     },
+  }, {
+    path: appRoutes.Header,
+    component: lazy(() => import('../../pages/Header')),
+    meta: {
+      isPublicRoute: true,
+    },
   },
 ];
 

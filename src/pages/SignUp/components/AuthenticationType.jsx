@@ -1,5 +1,6 @@
 import {
   Autocomplete,
+  Box,
   Button, FormControl, InputAdornment, InputBase, ListItemIcon,
   ListItemText, MenuItem, Select, TextField,
 } from '@mui/material';
@@ -13,6 +14,7 @@ import * as Yup from 'yup';
 import { fillForm, signUpUser, updateUserAtSignup } from '../../../redux/slices/RegistrationSlice';
 import { getCountryCode } from '../../../redux/slices/CountrySlice';
 import CountryList from '../../../utility/countriesWithFlag';
+import Modal from '../../Modal/Modal';
 
 function AuthenticationType({ backButtonClicked, formData, setFormData }) {
   const dispatch = useDispatch();
@@ -25,7 +27,7 @@ function AuthenticationType({ backButtonClicked, formData, setFormData }) {
   const [userCountry, setUserCountry] = useState();
   const [item, setItems] = useState();
   const [resetForm, setResetForm] = useState(false);
-
+  const [open, setOpen] = useState(false);
   const registrationUserDetails = useSelector(
     (state) => state.registration.userDetails,
   );
@@ -108,7 +110,9 @@ function AuthenticationType({ backButtonClicked, formData, setFormData }) {
       handlePhoneBlock();
     }
   };
-
+  const handleOpen = () => {
+    setOpen(!open);
+  };
   // getting country data
 
   useEffect(() => {
@@ -133,7 +137,12 @@ function AuthenticationType({ backButtonClicked, formData, setFormData }) {
     }
   }, [country.data]);
   const flagField = (e) => setSelectedCode(e.target.value);
-  /// ////////
+
+  useEffect(() => {
+    if (registrationFormDetails.resetForm) {
+      formik.resetForm();
+    }
+  }, [registrationFormDetails]);
 
   const ITEM_HEIGHT = 48;
   const ITEM_PADDING_TOP = 8;
@@ -170,6 +179,7 @@ function AuthenticationType({ backButtonClicked, formData, setFormData }) {
         </span>
       </Button>
       )}
+      {open && <Modal open={open} handleOpen={open} />}
 
       <div className="intro  mb-3  ">
         <h4 className="text-2xl font-bold text-white mt-3 font-body">Authentication Type</h4>
@@ -365,7 +375,6 @@ function AuthenticationType({ backButtonClicked, formData, setFormData }) {
           </div>
         </Form>
       </Formik>
-
     </div>
   );
 }
