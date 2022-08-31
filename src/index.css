@@ -51,3 +51,37 @@ input:-webkit-autofill:active {
   padding: 7px 10px 7px 10px;
   background-color: #272b30 !important;
 }
+.MuiListItemText-secondary{
+  color: rgb(148 163 184) !important;
+  font-size: small  !important;
+}
+ .MuiPopover-paper		{
+  border-color: #404656;
+  background-color: #272b30 !important;
+  border-radius: 20%;
+  border-width: 2px;  
+}
+ .MuiAutocomplete-listbox{
+  color: #fff !important;
+  background-color: #272b30 !important;
+  padding: 0px !important;
+  font-size: 12px;
+}
+.css-6hp17o-MuiList-root-MuiMenu-list{
+
+  padding: 0px !important;
+}
+.MuiMenu-list{
+  background-color: #272b30 !important;
+}
+.css-116jiwj-MuiButtonBase-root-MuiMenuItem-root,.css-1dcndxd-MuiButtonBase-root-MuiMenuItem-root{
+  font-size: 12px !important;
+    color: #fff !important;
+
+}
+.css-hl4853-MuiList-root{
+  padding: 0px !important;
+}
+/* .textInput:focus{
+border-color: #e07344;
+} */

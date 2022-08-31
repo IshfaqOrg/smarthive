@@ -2,25 +2,27 @@ import {
   Autocomplete,
   Box,
   Button, FormControl, InputAdornment, InputBase, ListItemIcon,
-  ListItemText, MenuItem, Select, TextField,
+  ListItemText, MenuItem, Paper, Select, TextField,
 } from '@mui/material';
 import React, { useState, useEffect } from 'react';
+import LocalPhoneIcon from '@mui/icons-material/LocalPhone';
+import MailOutlineRoundedIcon from '@mui/icons-material/MailOutlineRounded';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import { useFormik, Form, Formik } from 'formik';
 import { useSelector, useDispatch } from 'react-redux';
 import EmailOutlinedIcon from '@mui/icons-material/EmailOutlined';
 import { LoadingButton } from '@mui/lab';
 import * as Yup from 'yup';
-import { fillForm, signUpUser, updateUserAtSignup } from '../../../redux/slices/RegistrationSlice';
+import { fillForm, signUpUser, updateUserAtSignup } from '../../../redux/slices/RegisterationSlice';
 import { getCountryCode } from '../../../redux/slices/CountrySlice';
 import CountryList from '../../../utility/countriesWithFlag';
-import Modal from '../../Modal/Modal';
+import { CssTextField } from './muiComponents';
 
 function AuthenticationType({ backButtonClicked, formData, setFormData }) {
   const dispatch = useDispatch();
   const [isLoading, setIsLoading] = useState(false);
   const [selectedCode, setSelectedCode] = useState('');
-  const registrationFormDetails = useSelector((state) => state.registration?.form);
+  const registerationFormDetails = useSelector((state) => state.registeration?.form);
   const [selectedValue, setSelectValue] = useState('email');
   const [emailField, setEmailField] = useState(true);
   const [phoneField, setPhoneField] = useState(false);
@@ -28,15 +30,15 @@ function AuthenticationType({ backButtonClicked, formData, setFormData }) {
   const [item, setItems] = useState();
   const [resetForm, setResetForm] = useState(false);
   const [open, setOpen] = useState(false);
-  const registrationUserDetails = useSelector(
-    (state) => state.registration.userDetails,
+  const registerationUserDetails = useSelector(
+    (state) => state.registeration.userDetails,
   );
   const country = useSelector((state) => state.country);
   const phoneRegExp = /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/;
   const initialValues = {
-    ...registrationFormDetails,
+    ...registerationFormDetails,
     ...formData,
-    phoneNumber: registrationFormDetails?.phoneNumber?.replace(selectedCode, ''),
+    phoneNumber: registerationFormDetails?.phoneNumber?.replace(selectedCode, ''),
   };
   const validationSchema = selectedValue === 'phone_number'
     ? Yup.object({
@@ -56,7 +58,7 @@ function AuthenticationType({ backButtonClicked, formData, setFormData }) {
     onSubmit: async (values) => {
       let data = {
         ...values,
-        ...registrationUserDetails.userEmail && { apporved: true },
+        ...registerationUserDetails.userEmail && { apporved: true },
       };
       if (data.authType) {
         data.authType = selectedValue?.toLowerCase();
@@ -75,8 +77,8 @@ function AuthenticationType({ backButtonClicked, formData, setFormData }) {
         if (false) { // edit this
           data = {
             ...data,
-            auth0Id: registrationUserDetails.data?.auth0_id,
-            userId: registrationUserDetails.data?._id,
+            auth0Id: registerationUserDetails.data?.auth0_id,
+            userId: registerationUserDetails.data?._id,
           };
           console.log('Calling APi');
           await dispatch(updateUserAtSignup(data));
@@ -139,10 +141,10 @@ function AuthenticationType({ backButtonClicked, formData, setFormData }) {
   const flagField = (e) => setSelectedCode(e.target.value);
 
   useEffect(() => {
-    if (registrationFormDetails.resetForm) {
+    if (registerationFormDetails.resetForm) {
       formik.resetForm();
     }
-  }, [registrationFormDetails]);
+  }, [registerationFormDetails]);
 
   const ITEM_HEIGHT = 48;
   const ITEM_PADDING_TOP = 8;
@@ -155,226 +157,235 @@ function AuthenticationType({ backButtonClicked, formData, setFormData }) {
     },
   };
   return (
-    <div className="font-body">
-      { true && (
-      <Button
-        variant="contained"
-        onClick={backButtonClicked}
-        sx={{
-          borderRadius: '8px',
-          padding: '5px',
-          '&:hover': { backgroundColor: '#596067' },
-          backgroundColor: '#596067',
-          width: '',
-        }}
-      >
-        <ChevronLeftIcon sx={{ fontSize: '12px' }} />
-        {' '}
-        <span style={{
-          fontColor: '#eaf5ff',
-          fontSize: '12px',
-        }}
+    <div className="font-body px-2 mt-14 w-full flex justify-center">
+      <div className="intro  mb-3 w-4/5">
+
+        { true && (
+        <Button
+          variant="contained"
+          onClick={backButtonClicked}
+          sx={{
+            borderRadius: '8px',
+            padding: '5px',
+            '&:hover': { backgroundColor: '#596067' },
+            backgroundColor: '#596067',
+            width: '',
+          }}
         >
-          Back
-        </span>
-      </Button>
-      )}
-      {open && <Modal open={open} handleOpen={open} />}
+          <ChevronLeftIcon sx={{ fontSize: '12px' }} />
+          <span style={{
+            fontColor: '#eaf5ff',
+            fontSize: '12px',
+          }}
+          >
+            Back
+          </span>
+        </Button>
+        )}
 
-      <div className="intro  mb-3  ">
-        <h4 className="text-2xl font-bold text-white mt-3 font-body">Authentication Type</h4>
-        <h6 className="text-[#99a1ac] text-sm font-body">Select one method to proceed</h6>
-      </div>
-      <Formik>
-        <Form onSubmit={formik.handleSubmit}>
-          <div className="inputs w-3/4">
-            <div>
-              <Select
-                className="w-full bg-[#283046] input-group-text"
-                id="outlined-basic"
-                variant="outlined"
-                name="authType"
-                labelId="Select your industry type"
-                value={selectedValue}
-                onChange={(e) => handleChange(e)}
-                disabled={
-                Object.keys(registrationUserDetails.data).length !== 0
+        <div className="intro  mb-3 w-full ">
+          <h4 className="text-2xl font-bold text-white mt-3 font-body">Authentication Type</h4>
+          <h6 className="text-[#99a1ac] text-sm font-body">Select one method to proceed</h6>
+        </div>
+        <Formik>
+          <Form onSubmit={formik.handleSubmit}>
+            <div className="inputs">
+              <div>
+                <Select
+                  className="w-full bg-[#283046] input-group-text"
+                  id="outlined-basic"
+                  variant="outlined"
+                  name="authType"
+                  labelId="Select your industry type"
+                  value={selectedValue}
+                  onChange={(e) => handleChange(e)}
+                  disabled={
+                Object.keys(registerationUserDetails.data).length !== 0
               }
-                size="small"
-                sx={{
-                  padding: '5px',
-                  color: '#99a1ac',
-                  fontSize: '13px',
-                  backgroundColor: '#283046',
-                  borderRadius: '18px',
-                }}
-              >
-                <MenuItem sx={{ color: '#283046', backgroundColor: '#596067' }} value="email">Email</MenuItem>
-                <MenuItem sx={{ backgroundColor: '#596067' }} value="phone_number">Phone Number</MenuItem>
-              </Select>
-              <div className="mb-1" style={{ fontSize: 12 }}>
-            &nbsp;
-                {formik.touched.authType && formik.errors.authType
-                  ? formik.errors.authType
-                  : null}
-              </div>
-            </div>
-            <div>
-              { emailField ? (
-                <div>
-                  <TextField
-                    name="email"
-                    readOnly
-                    className="w-full bg-[#283046] input-group-text"
-                    variant="outlined"
-                    autoComplete="off"
-                    onChange={(e) => {
-                      handleEmailBlock();
-                      formik.handleChange(e);
-                    }}
-                    onBlur={formik.handleBlur}
-                    defaultValue={formik.values.email}
-                    // value={formik.values.email}
-                    placeholder="Fill the Email address"
-                    size="small"
-                    sx={{
-                      input: { padding: '15px', color: '#99a1ac', fontSize: '13px' }, backgroundColor: '#283046', borderRadius: '18px',
-                    }}
-                    InputProps={{
-                      readOnly: true,
-                      startAdornment: (
-                        <InputAdornment
-                          position="start"
-                          sx={{
-                            backgroundColor: (theme) => theme.palette.divider,
-                            borderTopLeftRadius: (theme) => `${theme.shape.borderRadius}px`,
-                            borderBottomLeftRadius: (theme) => `${theme.shape.borderRadius}px`,
-                          }}
-                        >
-                          <EmailOutlinedIcon />
-                        </InputAdornment>
-                      ),
-                    }}
-                  />
-                  <div className="mb-1" style={{ fontSize: 12 }}>
-                  &nbsp;
-                    {formik.touched.email && formik.errors.email
-                      ? formik.errors.email
-                      : null}
-                  </div>
+                  size="small"
+                  sx={{
+                    padding: '5px',
+                    color: '#99a1ac',
+                    fontSize: '13px',
+                    backgroundColor: '#283046',
+                    borderRadius: '18px',
+                  }}
+                >
+                  <MenuItem sx={{ color: '#283046', backgroundColor: '#596067' }} value="email">
+                    <MailOutlineRoundedIcon variant="outlined" size="small" sx={{ color: '#99a1ac' }} />
+                    Email
 
+                  </MenuItem>
+
+                  <MenuItem sx={{ backgroundColor: '#596067' }} value="phone_number">
+                    <LocalPhoneIcon variant="outlined" size="small" sx={{ color: '#99a1ac' }} />
+                    Phone Number
+
+                  </MenuItem>
+                </Select>
+                <div className="mb-1" style={{ fontSize: 12 }}>
+                  {/* &nbsp;
+                  {formik.touched.authType && formik.errors.authType
+                    ? formik.errors.authType
+                    : null} */}
                 </div>
-              ) : null}
-              {phoneField ? (
-                <>
+              </div>
+              <div className="w-full mt-6">
+                { emailField ? (
                   <div className="flex flex-row items-center w-full">
-
-                    <FormControl sx={{ m: 1, minWidth: 120 }} size="small">
-
-                      <Autocomplete
-                        className="w-full bg-[#283046] input-group-text"
-                        options={item}
-                        renderInput={(params) => (
-                          <div ref={params.InputProps.ref}>
-                            <InputBase
-                              inputProps={{ className: 'w-full' }}
-                              // eslint-disable-next-line react/jsx-props-no-spreading
-                              {...params.inputProps}
-                              name="industryType"
-                              onChange={formik.handleChange}
-                              onBlur={formik.handleBlur}
-                              value={params.value}
-                              placeholder="+01"
-                              startAdornment={params.flag}
-                            />
-                            {' '}
-
-                          </div>
-                        )}
-                      />
-
-                      <Select
-                        className="w-full bg-[#283046] input-group-text"
-                        id="outlined-basic"
-                        variant="outlined"
-                        onChange={flagField}
-                        placeholder="+01"
-                        value={selectedCode}
-                        labelId="Select your industry type"
-                        size="small"
+                    <Paper
+                      className="w-full !rounded-md !rounded-l-2xl"
+                      sx={{
+                        border: 1,
+                        display: 'flex',
+                        alignItems: 'center',
+                        height: '46px',
+                        borderColor: '#656669',
+                        backgroundColor: '#283046',
+                      }}
+                    >
+                      <Box
+                        className="rounded-l-2xl"
                         sx={{
-                          padding: '5px',
-                          color: '#99a1ac',
-                          fontSize: '13px',
-                          backgroundColor: '#283046',
-                          borderRadius: '18px',
+                          height: '100%',
+                          backgroundColor: '#272b30',
+                          p: '12px',
                         }}
-                        onBlur={formik.handleBlur}
-                        autoComplete="off"
-                        MenuProps={MenuProps}
+                        aria-label="menu"
                       >
-                        {item.map((element, index) => (
-                          <MenuItem value={element.value} key={`${element.value + index}`} sx={{ fontSize: '12px', backgroundColor: '#99a1ac' }}>
-                            <ListItemIcon size="small"><img src={element.flag} alt="country flag" /></ListItemIcon>
-                            <ListItemText>{element.label}</ListItemText>
-                          </MenuItem>
-                        ))}
-
-                      </Select>
-
-                    </FormControl>
-                    <div className="w-full">
-                      <TextField
-                        name="phoneNumber"
-                        variant="outlined"
+                        <MailOutlineRoundedIcon variant="outlined" sx={{ color: 'white' }} />
+                        {/* <img src={e.icon} alt="email" style={{ alignSelf: 'center' }} /> */}
+                      </Box>
+                      <InputBase
+                        name="email"
+                        readOnly
                         autoComplete="off"
-                        value={formik.values.phoneNumber}
+                        className="bg-[#283046] w-full rounded-lg autofill:bg-transparent"
+                        sx={{ height: '100%', input: { fontSize: '14px', color: 'white' } }}
                         onChange={(e) => {
-                          handlePhoneBlock();
+                          handleEmailBlock();
                           formik.handleChange(e);
                         }}
                         onBlur={formik.handleBlur}
-                        placeholder="Enter your phone number"
-                        size="small"
-                        sx={{
-                          backgroundColor: '#283046',
-                          borderRadius: '8px',
-                          width: '100%',
-                          input: {
-                            color: 'white', padding: '13px', color: '#99a1ac', fontSize: '13px',
-                          },
-                        }}
+                        defaultValue={formik.values.email}
+                        placeholder="Fill the Email address"
                       />
+                    </Paper>
+
+                    <div className="mb-1" style={{ fontSize: 12 }}>
+                  &nbsp;
+                      {formik.touched.email && formik.errors.email
+                        ? formik.errors.email
+                        : null}
                     </div>
 
                   </div>
-                  <div className="mb-1" style={{ fontSize: 12 }}>
+                ) : null}
+                {phoneField ? (
+                  <>
+                    <div className="flex flex-row items-center w-full">
+
+                      <FormControl sx={{ m: 1, minWidth: 120 }} size="small">
+                        <Autocomplete
+                          className=" bg-[#283046] input-group-text rounded-xl !border-2 !border-[#656669]"
+                          id="country-select-demo"
+                          disableClearable
+                          sx={{ height: '46px', input: { color: 'white' }, borderColor: '' }}
+                          options={item}
+                          onChange={(e, value) => {
+                            formik.setFieldValue('industryType', value.label, true);
+                            formik.handleBlur(value.label);
+                          }}
+                          autoHighlight
+                          getOptionLabel={(option) => option.label}
+                          renderOption={(props, option) => (
+                            <Box component="li" sx={{ '& > img': { mr: 2, flexShrink: 0 } }} {...props}>
+                              <img
+                                loading="lazy"
+                                width="20"
+                                src={option.flag}
+                                // srcSet={`https://flagcdn.com/w40/${option.code.toLowerCase()}.png 2x`}
+                                alt="flag"
+                              />
+                              {option.label}
+                              {/* (
+                              {option.code}
+                              ) +
+                              {option.phone} */}
+                            </Box>
+                          )}
+                          renderInput={(params) => (
+                            <CssTextField
+                              value={params.value}
+                              // eslint-disable-next-line react/jsx-props-no-spreading
+                              {...params}
+                              placeholder="Code"
+                              inputProps={{
+                                ...params.inputProps,
+                                autoComplete: 'new-password', // disable autocomplete and autofill
+                              }}
+                            />
+                          )}
+                        />
+                      </FormControl>
+                      <div className="w-full">
+                        <Paper
+                          className="w-full !rounded-md "
+                          sx={{
+                            border: 1,
+                            display: 'flex',
+                            alignItems: 'center',
+                            height: '46px',
+                            borderColor: '#656669',
+                            backgroundColor: '#283046',
+                          }}
+                        >
+                          <InputBase
+                            name="phoneNumber"
+                            autoComplete="off"
+                            className="bg-[#283046] w-full rounded-lg autofill:bg-transparent"
+                            sx={{ height: '100%', input: { fontSize: '14px', color: 'white' } }}
+                            onChange={(e) => {
+                              handlePhoneBlock();
+                              formik.handleChange(e);
+                            }}
+                            onBlur={formik.handleBlur}
+                            value={formik.values.phoneNumber}
+                            placeholder="Enter your phone number"
+                          />
+                        </Paper>
+
+                      </div>
+
+                    </div>
+                    <div className="mb-1" style={{ fontSize: 12 }}>
                   &nbsp;
-                    {formik.touched.phoneNumber && formik.errors.phoneNumber
-                      ? formik.errors.phoneNumber
-                      : null}
-                  </div>
-                </>
+                      {formik.touched.phoneNumber && formik.errors.phoneNumber
+                        ? formik.errors.phoneNumber
+                        : null}
+                    </div>
+                  </>
 
-              ) : null}
-            </div>
-            <div className="mt-6">
-              <LoadingButton
-                disabled={isLoading}
-                className="btn p-2 py-3"
-                type="submit"
-                variant="contained"
-                loading={isLoading}
+                ) : null}
+              </div>
+              <div className="mt-6">
+                <LoadingButton
+                  disabled={isLoading}
+                  className="btn p-2 py-3 h-12 !text-xs "
+                  type="submit"
+                  variant="contained"
+                  loading={isLoading}
                 // disabled={}
-                sx={{ borderRadius: '9px', width: '100%', marginTop: '0.5rem' }}
-              >
-                Confirm
+                  sx={{ borderRadius: '9px', width: '100%', marginTop: '0.5rem' }}
+                >
+                  Confirm
 
-              </LoadingButton>
+                </LoadingButton>
+              </div>
             </div>
-          </div>
-        </Form>
-      </Formik>
+          </Form>
+        </Formik>
+      </div>
     </div>
   );
 }

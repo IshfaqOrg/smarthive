@@ -7,8 +7,8 @@ function Loader() {
       <div className="flex h-full w-full justify-center items-center">
 
         <CircularProgress
-          size={150}
-          thickness={0.5}
+          size={80}
+          thickness={0.7}
           style={{ padding: '5px' }}
         />
 

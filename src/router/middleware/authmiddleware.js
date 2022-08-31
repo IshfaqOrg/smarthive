@@ -5,7 +5,7 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 
 function AuthMiddleware(props) {
-  const token = JSON.parse(localStorage.getItem('token'));
+  const token = localStorage.getItem('token');
   // eslint-disable-next-line react/prop-types
   const { route } = props;
   const navigate = useNavigate();

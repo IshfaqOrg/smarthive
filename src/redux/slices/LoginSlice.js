@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import API from '../../constants/RouteConstant/API';
+import AxiosInstance from '../../services/utils/axios';
 
 const initialState = {
   loading: false,
@@ -9,11 +9,10 @@ const initialState = {
 };
 export const sendEmailOTP = createAsyncThunk('sendEmailOTP', async (data, { rejectWithValue }) => {
   try {
-    const response = await API.post('auth/send-otp', data);
+    const response = await AxiosInstance.post('auth/send-otp', data);
     return response?.data;
   } catch (err) {
     if (!err.response) throw err;
-
     rejectWithValue(err.response.data);
   }
 });

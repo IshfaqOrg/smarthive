@@ -3,19 +3,19 @@ import { NavLink } from 'react-router-dom';
 
 function MenuTabs() {
   const navItems = [{
-    to: '/dashboard',
+    to: 'dashboard',
     label: 'Dashboard',
   }, {
-    to: '/hive',
+    to: 'hive',
     label: 'Hive',
   }, {
-    to: '/resilence',
+    to: 'resilence',
     label: 'Resilence',
   }, {
-    to: '/privilageAccess',
+    to: 'privilageAccess',
     label: 'Privilage Accesss',
   }, {
-    to: '/compliance',
+    to: 'compliance',
     label: 'Compliance',
   }];
   //   const activeClassName = '';

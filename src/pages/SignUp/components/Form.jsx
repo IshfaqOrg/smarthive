@@ -17,7 +17,7 @@ function Form() {
   };
 
   return (
-    <div className="h-2/3 w-2/3 lg:h-3/4 ">
+    <div className="h-4/5 w-5/6 lg:h-3/4 flex justify-center">
       {signUp
       && (
       <SignUp
@@ -34,12 +34,6 @@ function Form() {
         backButtonClicked={handleSignUp}
       />
       )}
-
-      {/* {login && (
-      <Login
-        handleSignUp={handleSignUp}
-      />
-      )} */}
     </div>
   );
 }

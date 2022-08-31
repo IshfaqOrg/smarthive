@@ -1,13 +1,15 @@
-import { registrationReducer } from '../slices/RegistrationSlice';
+import { registerationReducer } from '../slices/RegisterationSlice';
 import { loginReducer } from '../slices/LoginSlice';
 import countryReducer from '../slices/CountrySlice';
-// import notificationReducer from '../slices/notificationSlice';
+import userSlice from '../slices/userSlice';
+import notificationReducer from '../slices/notificationSlice';
 
 const rootReducer = {
-  registration: registrationReducer,
+  registeration: registerationReducer,
   country: countryReducer,
   login: loginReducer,
-  // notification: notificationReducer,
+  notifications: notificationReducer,
+  user: userSlice,
 };
 // we created root reducer, which contains all the reducer the store holds
 export default rootReducer;

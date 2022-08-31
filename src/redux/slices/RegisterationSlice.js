@@ -36,7 +36,6 @@ export const signUpUser = createAsyncThunk(
   'signUpUser',
   async (data, { rejectWithValue }) => {
     try {
-      console.log(data);
       const response = await AxiosInstance.post(API.signUpUser, data);
       return response.data;
     } catch (err) {
@@ -49,7 +48,7 @@ export const signUpUser = createAsyncThunk(
 );
 
 export const getUserByCode = createAsyncThunk(
-  'registration/getUserByCode',
+  'registeration/getUserByCode',
   async (data, { rejectWithValue }) => {
     try {
       const response = await AxiosInstance.post(API.getUserByCode, data);
@@ -64,7 +63,7 @@ export const getUserByCode = createAsyncThunk(
 );
 
 export const updateUserAtSignup = createAsyncThunk(
-  'registration/updateUserAtSignup',
+  'registeration/updateUserAtSignup',
   async (data, { rejectWithValue }) => {
     try {
       const response = await AxiosInstance.post(API.updateUserAtSignup, data);
@@ -94,12 +93,43 @@ export const getUserDetailsByToken = createAsyncThunk(
     }
   },
 );
-export const registrationSlice = createSlice({
-  name: 'registration',
+export const registerationSlice = createSlice({
+  name: 'registeration',
   initialState,
   reducers: {
     fillForm: (state, action) => {
       state.form = { ...state.form, ...action?.payload };
+    },
+    loginUser: (state, { payload }) => {
+      if (!state.userDetails.error) {
+        localStorage.setItem('token', payload.token);
+        state.authenticate.isLoggedIn = true;
+        if (payload && payload.expires_in) {
+          state.authenticate.token = payload;
+        } else {
+          const tokenJson = {
+            access_token: payload.token,
+            scope: 'openid profile email address phone',
+            expires_in: parseInt(payload.expireTime),
+            token_type: 'Bearer',
+          };
+          state.authenticate.token = tokenJson;
+          // state.isRefresh = true;
+        }
+      }
+      // state.loading = true
+    },
+    logoutUser: (state) => {
+      state.form.resetForm = true;
+      // localStorage.removeItem("userDetails");
+      // localStorage.removeItem("token");
+      localStorage.clear();
+      // state.currentUser = {};
+      state.authenticate.isLoggedIn = false;
+      state.authenticate.token = null;
+      state.userDetails.data = { ...initialState.userDetails.data };
+      state.form = { resetForm: true };
+      window.location.reload();
     },
   },
   extraReducers: (builder) => {
@@ -147,8 +177,34 @@ export const registrationSlice = createSlice({
       state.userDetails.loading = true;
       state.userDetails.error = false;
     });
+    builder.addCase(getUserDetailsByToken.fulfilled, (state, action) => {
+      state.userDetails.loading = false;
+      state.userDetails.error = false;
+      state.authenticate.loading = false;
+      state.userDetails.message = '';
+      localStorage.setItem('userDetails', JSON.stringify(action.payload?.data));
+      state.userDetails = {
+        ...state.userDetails.data,
+        ...action.payload?.data,
+      };
+    });
+    builder.addCase(getUserDetailsByToken.rejected, (state, action) => {
+      state.userDetails.loading = false;
+      state.userDetails.error = true;
+      state.authenticate.loading = false;
+      state.userDetails.message = action.payload || JSON.stringify(action.payload?.message.error);
+      state.userDetails.data = {};
+    });
+    builder.addCase(getUserDetailsByToken.pending, (state) => {
+      state.userDetails.loading = true;
+      state.authenticate.loading = true;
+    });
+    builder.addCase(getUserByCode.fulfilled, (state, action) => {
+      state.userDetails.userEmail = action.payload.data?.email;
+      state.userDetails.company = action.payload.data?.company;
+    });
   },
 });
 
-export const { fillForm } = registrationSlice.actions;
-export const registrationReducer = registrationSlice.reducer;
+export const { loginUser, logoutUser, fillForm } = registerationSlice.actions;
+export const registerationReducer = registerationSlice.reducer;

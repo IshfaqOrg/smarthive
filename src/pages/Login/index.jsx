@@ -1,24 +1,120 @@
 import {
-  Paper, Box, InputBase, Typography, Button,
+  Paper, Box, InputBase, Typography,
 } from '@mui/material';
 import React, { useEffect, useState } from 'react';
-import { Formik, Form, useFormik } from 'formik';
+import {
+  Formik, Form, useFormik,
+} from 'formik';
 import * as Yup from 'yup';
 import MailRoundedIcon from '@mui/icons-material/MailRounded';
 import { LoadingButton } from '@mui/lab';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router';
 import { Link } from 'react-router-dom';
 import { sendEmailOTP } from '../../redux/slices/LoginSlice';
+import { getUserDetailsByToken, loginUser } from '../../redux/slices/RegisterationSlice';
+import ModalWindow from '../Modal/ModalWindow';
+
+const SUPER_ADMIN = 'super_admin';
 
 function Login({ formData }) {
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
+  const userSelector = useSelector((state) => state.registeration.userDetails);
+  const [showOtp, setShowOtp] = useState(false);
+  const [centeredModal, setCenteredModal] = useState(false);
+  const [message, setMessage] = useState('');
+  const registrationForm = useSelector((state) => state.registeration.form);
+  const registrationProcess = useSelector(
+    (state) => state.registeration.userDetails,
+  );
+  const loginSelector = useSelector((state) => state.login);
+  const authSelector = useSelector((state) => state.registeration?.authenticate);
   const dispatch = useDispatch();
+  const handleOpen = () => setCenteredModal(true);
+  const handleClose = () => setCenteredModal(false);
   // inital values for the form
   const initialValues = {
     email: '',
   };
+
+  useEffect(() => {
+    const asyncLogin = async () => {
+      const urlIndex = window.location.href.split('=');
+      const domain = process.env.REACT_APP_DOMAIN;
+      if (
+        urlIndex[0] === `${domain}/login#access_token`
+      ) {
+        const tokenUrl = urlIndex[1];
+        const tokenIndex = tokenUrl.split('&');
+        const token = `${tokenIndex[0]}`;
+        const expireTime = urlIndex[3].split('&')[0];
+        await dispatch(getUserDetailsByToken(token));
+        dispatch(loginUser({ token, expireTime }));
+      } else if (
+        urlIndex[0] === `${domain}/login#error`
+      ) {
+        const token = decodeURI(urlIndex[2]) || 'Unknown error occured';
+        const expireTime = urlIndex[3].split('&')[0];
+        setCenteredModal(true);
+        setMessage(token);
+        // toast.error(token);
+        navigate('/login', { replace: true });
+      } else {
+        // history.push('/login');
+        navigate('/login', { replace: true });
+      }
+    };
+    try {
+      asyncLogin();
+    } catch (error) { console.log(error); }
+  }, []);
+
+  useEffect(() => {
+    if (loginSelector.error || registrationProcess.error) {
+      const errorMessage = loginSelector?.message?.error
+        || registrationProcess?.message?.error
+        || JSON.stringify(registrationProcess?.message?.error);
+      console.log(errorMessage);
+    }
+  }, [loginSelector, registrationProcess]);
+
+  useEffect(() => {
+    if (authSelector.isLoggedIn) navigate((userSelector.role === SUPER_ADMIN) ? '/dashboard' : '/resilence', { replace: true });
+  }, [authSelector?.isLoggedIn]);
+
+  useEffect(() => {
+    if (registrationForm.resetForm) {
+      setShowOtp(false);
+    }
+  }, [registrationForm]);
+
+  useEffect(() => {
+    if (loginSelector.error || registrationProcess.error) {
+      setCenteredModal(true);
+      setMessage(
+        loginSelector?.message?.error
+        || registrationProcess?.message?.error
+        || JSON.stringify(registrationProcess?.message?.error),
+      );
+    }
+  }, [loginSelector, registrationProcess]);
+
+  useEffect(() => {
+    if (loginSelector.response) {
+      if (loginSelector.response?.valid) {
+        if (loginSelector.response?.phone_number) {
+          // Show Otp page
+          setShowOtp(true);
+        } else {
+          setMessage(loginSelector?.response?.message);
+          setCenteredModal(true);
+          // history.push('/')
+        }
+      }
+    }
+  }, [loginSelector.loading]);
+
   // Validation schema
   const validationSchema = Yup.object({
     email: Yup.string().email()
@@ -35,6 +131,11 @@ function Login({ formData }) {
       await dispatch(sendEmailOTP(data));
     },
   });
+  const resendOTP = async (email) => {
+    setIsLoading(true);
+    await dispatch(sendEmailOTP({ email }));
+    setIsLoading(false);
+  };
 
   return (
     <div className="relative w-2/3 inset-x-0 top-8 left-5 mb-2">
@@ -46,7 +147,7 @@ function Login({ formData }) {
         <Formik>
           <Form onSubmit={formik.handleSubmit}>
             <Paper
-              className="w-full !rounded-md !rounded-l-2xl"
+              className="w-full !rounded-md focus:border-orange-400 !textInput !rounded-l-2xl"
               sx={{
                 border: 1,
                 display: 'flex',
@@ -54,6 +155,9 @@ function Login({ formData }) {
                 height: '44px',
                 borderColor: '#656669',
                 backgroundColor: '#283046',
+                '&:hover': {
+                  borderColor: 'orange',
+                },
               }}
             >
               <Box
@@ -64,7 +168,7 @@ function Login({ formData }) {
                   p: '12px',
                 }}
               >
-                <MailRoundedIcon />
+                <MailRoundedIcon sx={{ color: 'white' }} />
               </Box>
               <InputBase
                 name="email"
@@ -77,38 +181,44 @@ function Login({ formData }) {
               />
 
             </Paper>
+            <div className="mb-1" style={{ color: 'white', fontSize: 12 }}>
+&nbsp;
+              {formik.touched.email && formik.errors.email ? (
+                formik.errors.email
+              ) : null}
+
+            </div>
+            <LoadingButton
+              sx={{
+                borderRadius: '9px', marginTop: '1rem',
+              }}
+              inputProps
+              className="btn !p-2 !h-12 !text-xs w-full "
+              type="submit"
+              variant="contained"
+              loading={isLoading}
+            >
+              Login
+
+            </LoadingButton>
+
           </Form>
 
         </Formik>
       </div>
-      <div className="mb-1" style={{ color: 'white', fontSize: 12 }}>
-&nbsp;
-        {formik.touched.email && formik.errors.email ? (
-          formik.errors.email
-        ) : null}
-
-      </div>
-      <LoadingButton
-        sx={{
-          padding: '8px', borderRadius: '9px', width: '100%', marginTop: '1rem',
-        }}
-        inputProps
-        className="btn p-3"
-        type="submit"
-        variant="contained"
-        loading={isLoading}
-                // disabled={}
-      >
-        Login
-
-      </LoadingButton>
-
-      <Typography className="flex z-10" color="#d0d2d6" align="center" variant="body2" mt={2}>
+      <Typography className="relative z-10 " color="#d0d2d6" align="center" variant="body2" mt={2}>
         New on our platform?
-        <Link to="/signup">
-          Create an account
+        <Link to="/">
+          <u className="text-stone-500 hover:text-orange-400">  Create an account</u>
+
         </Link>
       </Typography>
+      <ModalWindow
+        open={centeredModal}
+        message={message}
+        handleClose={handleClose}
+        handleOpen={handleOpen}
+      />
     </div>
   );
 }
