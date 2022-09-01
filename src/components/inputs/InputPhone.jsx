@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import React, { useEffect, useState } from 'react';
 import {
   Autocomplete, Box, InputBase, Paper,
@@ -12,6 +13,7 @@ function InputPhone({
   handleChange, handleBlur, values,
 }) {
   const country = useSelector((state) => state.country);
+  // eslint-disable-next-line no-unused-vars
   const [selectedCode, setSelectedCode] = useState('');
   const dispatch = useDispatch();
   const [userCountry, setUserCountry] = useState();
@@ -21,11 +23,11 @@ function InputPhone({
   useEffect(() => {
     if (!country.data) dispatch(getCountryCode);
 
-    const countryItems = CountryList.map((item) => {
+    const countryItems = CountryList.map((element) => {
       const data = {
-        label: item?.callingCode,
-        value: item?.callingCode,
-        flag: item?.flag,
+        label: element?.callingCode,
+        value: element?.callingCode,
+        flag: element?.flag,
       };
       return data;
     });
@@ -56,6 +58,7 @@ function InputPhone({
         autoHighlight
         getOptionLabel={(option) => option.label}
         renderOption={(props, option) => (
+          // eslint-disable-next-line react/jsx-props-no-spreading
           <Box component="li" sx={{ '& > img': { mr: 2, flexShrink: 0 } }} {...props}>
             <img
               loading="lazy"

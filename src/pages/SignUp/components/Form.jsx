@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import AuthenticationType from './AuthenticationType';
-import SignUp from './SignUp';
+import SignUp from '..';
 
 function Form() {
   const [auth, setAuth] = useState();

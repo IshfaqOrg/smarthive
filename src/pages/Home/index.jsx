@@ -1,6 +1,5 @@
 import React from 'react';
 import { Outlet } from 'react-router';
-import { useSelector } from 'react-redux';
 import logo from '../../assets/images/logo/logo.png';
 import pattern from '../../assets/images/pattern-right.png';
 import patternBottom from '../../assets/images/pattern-bottom.png';

@@ -110,7 +110,7 @@ export const registerationSlice = createSlice({
           const tokenJson = {
             access_token: payload.token,
             scope: 'openid profile email address phone',
-            expires_in: parseInt(payload.expireTime),
+            expires_in: Number(payload.expireTime),
             token_type: 'Bearer',
           };
           state.authenticate.token = tokenJson;

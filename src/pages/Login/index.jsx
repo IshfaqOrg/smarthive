@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import {
   Paper, Box, InputBase, Typography,
 } from '@mui/material';
@@ -11,9 +12,10 @@ import { LoadingButton } from '@mui/lab';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router';
 import { Link } from 'react-router-dom';
+import emailIcon from '../../assets/images/icons/Message.png';
 import { sendEmailOTP } from '../../redux/slices/LoginSlice';
 import { getUserDetailsByToken, loginUser } from '../../redux/slices/RegisterationSlice';
-import ModalWindow from '../Modal/ModalWindow';
+import ModalWindow from '../../components/Modal/ModalWindow';
 
 const SUPER_ADMIN = 'super_admin';
 
@@ -49,8 +51,10 @@ function Login({ formData }) {
         const tokenIndex = tokenUrl.split('&');
         const token = `${tokenIndex[0]}`;
         const expireTime = urlIndex[3].split('&')[0];
+        setIsLoading(true);
         await dispatch(getUserDetailsByToken(token));
         dispatch(loginUser({ token, expireTime }));
+        setIsLoading(false);
       } else if (
         urlIndex[0] === `${domain}/login#error`
       ) {
@@ -128,7 +132,9 @@ function Login({ formData }) {
     enableReinitialize: true,
     onSubmit: async (values) => {
       const data = { email: values.email };
+      setIsLoading(true);
       await dispatch(sendEmailOTP(data));
+      setIsLoading(false);
     },
   });
   const resendOTP = async (email) => {
@@ -168,7 +174,7 @@ function Login({ formData }) {
                   p: '12px',
                 }}
               >
-                <MailRoundedIcon sx={{ color: 'white' }} />
+                <img src={emailIcon} alt="Your email address" style={{ alignSelf: 'center' }} />
               </Box>
               <InputBase
                 name="email"
@@ -177,6 +183,7 @@ function Login({ formData }) {
                 value={formik.values.email}
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
+                autoComplete="off"
                 placeholder="Your Email Address... "
               />
 

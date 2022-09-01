@@ -1,8 +1,10 @@
+/* eslint-disable no-underscore-dangle */
+/* eslint-disable no-unused-vars */
 import {
   Autocomplete,
   Box,
-  Button, FormControl, InputAdornment, InputBase, ListItemIcon,
-  ListItemText, MenuItem, Paper, Select, TextField,
+  Button, FormControl, InputBase,
+  MenuItem, Paper, Select,
 } from '@mui/material';
 import React, { useState, useEffect } from 'react';
 import LocalPhoneIcon from '@mui/icons-material/LocalPhone';
@@ -10,16 +12,18 @@ import MailOutlineRoundedIcon from '@mui/icons-material/MailOutlineRounded';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import { useFormik, Form, Formik } from 'formik';
 import { useSelector, useDispatch } from 'react-redux';
-import EmailOutlinedIcon from '@mui/icons-material/EmailOutlined';
+import { useNavigate } from 'react-router-dom';
 import { LoadingButton } from '@mui/lab';
 import * as Yup from 'yup';
 import { fillForm, signUpUser, updateUserAtSignup } from '../../../redux/slices/RegisterationSlice';
 import { getCountryCode } from '../../../redux/slices/CountrySlice';
+import ModalWindow from '../../../components/Modal/ModalWindow';
 import CountryList from '../../../utility/countriesWithFlag';
 import { CssTextField } from './muiComponents';
 
 function AuthenticationType({ backButtonClicked, formData, setFormData }) {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
   const [selectedCode, setSelectedCode] = useState('');
   const registerationFormDetails = useSelector((state) => state.registeration?.form);
@@ -30,9 +34,13 @@ function AuthenticationType({ backButtonClicked, formData, setFormData }) {
   const [item, setItems] = useState();
   const [resetForm, setResetForm] = useState(false);
   const [open, setOpen] = useState(false);
+  const [centeredModal, setCenteredModal] = useState(false);
+  const handleClose = () => setCenteredModal(false);
+  const handleOpenModal = () => setCenteredModal(true);
   const registerationUserDetails = useSelector(
     (state) => state.registeration.userDetails,
   );
+  const [message, setMessage] = useState('');
   const country = useSelector((state) => state.country);
   const phoneRegExp = /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/;
   const initialValues = {
@@ -58,7 +66,7 @@ function AuthenticationType({ backButtonClicked, formData, setFormData }) {
     onSubmit: async (values) => {
       let data = {
         ...values,
-        ...registerationUserDetails.userEmail && { apporved: true },
+        ...registerationUserDetails.userEmail && { approved: true },
       };
       if (data.authType) {
         data.authType = selectedValue?.toLowerCase();
@@ -92,8 +100,26 @@ function AuthenticationType({ backButtonClicked, formData, setFormData }) {
       setIsLoading(false);
     },
   });
-  //   },
-  // });
+
+  useEffect(() => {
+    if (
+      registerationUserDetails.error
+      || registerationUserDetails.data.valid
+      || registerationUserDetails.message
+    ) {
+      if (
+        registerationUserDetails.message
+        || registerationUserDetails.data?.message
+      ) {
+        setCenteredModal(true);
+        setMessage(registerationUserDetails.message.error);
+      }
+    }
+
+    if (registerationUserDetails.data?.access_token) {
+      navigate('/resilence', { replace: true });
+    }
+  }, [registerationUserDetails.loading]);
   const handlePhoneBlock = () => {
     setPhoneField(true);
     setEmailField(false);
@@ -115,16 +141,17 @@ function AuthenticationType({ backButtonClicked, formData, setFormData }) {
   const handleOpen = () => {
     setOpen(!open);
   };
+
   // getting country data
 
   useEffect(() => {
     if (!country.data) dispatch(getCountryCode);
 
-    const countryItems = CountryList.map((item) => {
+    const countryItems = CountryList.map((countryElement) => {
       const data = {
-        label: item?.callingCode,
-        value: item?.callingCode,
-        flag: item?.flag,
+        label: countryElement?.callingCode,
+        value: countryElement?.callingCode,
+        flag: countryElement?.flag,
       };
       return data;
     });
@@ -299,6 +326,7 @@ function AuthenticationType({ backButtonClicked, formData, setFormData }) {
                           autoHighlight
                           getOptionLabel={(option) => option.label}
                           renderOption={(props, option) => (
+                            // eslint-disable-next-line react/jsx-props-no-spreading
                             <Box component="li" sx={{ '& > img': { mr: 2, flexShrink: 0 } }} {...props}>
                               <img
                                 loading="lazy"
@@ -385,6 +413,12 @@ function AuthenticationType({ backButtonClicked, formData, setFormData }) {
             </div>
           </Form>
         </Formik>
+        <ModalWindow
+          open={centeredModal}
+          message={message}
+          handleClose={handleClose}
+          handleOpen={handleOpenModal}
+        />
       </div>
     </div>
   );

@@ -1,44 +1,46 @@
 import {
-  Avatar, ButtonBase, Box,
-  Badge, Divider, IconButton, List, ListItem, ListItemAvatar, ListItemText,
-  Paper, Popover, Typography, ListItemIcon,
+  Avatar, ButtonBase, Box, List, ListItem,
+  Popover, Typography,
 } from '@mui/material';
 import { Stack } from '@mui/system';
-import PermIdentityOutlinedIcon from '@mui/icons-material/PermIdentityOutlined';
-import CheckBoxIcon from '@mui/icons-material/CheckBox';
-import PowerSettingsNewIcon from '@mui/icons-material/PowerSettingsNew';
 import React, { useEffect } from 'react';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { Link } from 'react-router-dom';
+import { FiUser, FiPower, FiCheckSquare } from 'react-icons/fi';
 import { useDispatch, useSelector } from 'react-redux';
+import { makeStyles } from '@material-ui/core';
 import { CUSTOMER_ADMIN, userRole } from '../../../constants/index';
 import avator from '../../../assets/images/avatars/avatar.png';
 import { getUserInfo } from '../../../redux/slices/userSlice';
 import { logoutUser } from '../../../redux/slices/RegisterationSlice';
 
+const useStyles = makeStyles({
+  profilePopover: {
+    borderWidth: '0px',
+    boxShadow: '0 3px 9px rgb(56 57 58), 0 3px 6px rgb(56 57 58)',
+  },
+  listItemIcon: {
+    width: '14px',
+  },
+});
 function ProfileBar() {
+  const classes = useStyles();
   const dispatch = useDispatch();
   const [anchorEl, setAnchorEl] = React.useState(null);
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
-
   const handleClose = () => {
     setAnchorEl(null);
   };
   const open = Boolean(anchorEl);
   const id = open ? 'simple-popover' : undefined;
 
-  const userState = useSelector((state) => state.user);
+  const userState = useSelector((state) => state.user.userInfo);
 
   useEffect(() => {
-    console.log('here');
-    if (!userState?.id) dispatch(getUserInfo);
-  }, []);
-
-  useEffect(() => {
+    if (!userState.length) dispatch(getUserInfo());
     console.log(userState);
-    if (userState?.id) console.log(userState);
   }, [userState]);
 
   return (
@@ -48,7 +50,7 @@ function ProfileBar() {
         <Box>
           <Typography variant="h6" className="!text-sm font-body font-bold text-white">
             {userState?.full_name}
-            <ExpandMoreIcon />
+            <ExpandMoreIcon className="text-[#99a1ac]" />
           </Typography>
           <Typography variant="p" className="!text-xs font-body text-[#99a1ac] !relative !bottom-2">{userRole[userState?.role] || (userState?.role?.includes('admin') && 'ADMIN')}</Typography>
         </Box>
@@ -69,39 +71,34 @@ function ProfileBar() {
           vertical: 'top',
           horizontal: 'left',
         }}
+        classes={{ paper: classes.profilePopover }}
       >
-        <Stack className="p-0  !bg-theme-black ">
-          <List sx={{ pb: 1 }}>
+        <Stack className="p-0  !bg-theme-black">
+          <List>
+            <ListItem button classname="p-1" classes={{ button: classes.listItemIcon }}>
+              <Link to="profile" className="flex space-x-3 ">
 
-            <ListItem button>
-              <Link to="profile" className="flex">
-                <ListItemIcon>
-                  <PermIdentityOutlinedIcon className=" !text-slate-400 font-body" variant="outlined" />
-                </ListItemIcon>
-                <Typography className="!text-sm !text-slate-400 !font-body">Profile</Typography>
+                <FiUser className=" !text-white font-body" variant="outlined" />
+
+                <Typography className="!text-sm !text-white !font-body">Profile</Typography>
               </Link>
             </ListItem>
             {userState?.role === CUSTOMER_ADMIN
             && (
             <ListItem button>
-              <ListItemIcon>
-                <CheckBoxIcon className=" !text-slate-400 font-body" variant="outlined" />
-              </ListItemIcon>
-              <Link to="/integerations">
-                <Typography className="!text-sm !text-slate-400 !font-body">Integerations</Typography>
+              <Link to="/integerations" className="flex space-x-3">
+                <FiCheckSquare className=" !text-white font-body" variant="outlined" />
+                <Typography className="!text-sm !text-white !font-body">Integerations</Typography>
               </Link>
             </ListItem>
             )}
-
             <ListItem
               button
               onClick={() => dispatch(logoutUser())}
             >
-              <Link to="/" className="flex">
-                <ListItemIcon>
-                  <PowerSettingsNewIcon className=" !text-slate-400 font-body" variant="outlined" />
-                </ListItemIcon>
-                <Typography className="!text-sm !text-slate-400 !font-body">Logout</Typography>
+              <Link to="/" className="flex space-x-3">
+                <FiPower className=" !text-white font-body" variant="outlined" />
+                <Typography className="!text-sm !text-white !font-body">Logout</Typography>
               </Link>
             </ListItem>
           </List>

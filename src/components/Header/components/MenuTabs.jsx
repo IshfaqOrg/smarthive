@@ -21,7 +21,7 @@ function MenuTabs() {
   //   const activeClassName = '';
   return (
     <div className="menu-tabs">
-      <nav className="flex gap-11 ">
+      <nav className="flex gap-16 ">
         {navItems.map(((element) => (
           <NavLink key={`${element.label}`} to={element.to}><h6 className=" nav-item text-[#99a1ac]  text-sm font-body">{element.label}</h6></NavLink>
         )))}

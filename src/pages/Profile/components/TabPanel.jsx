@@ -1,9 +1,9 @@
+/* eslint-disable react/jsx-props-no-spreading */
 import * as React from 'react';
 
-function TabPanel(props) {
-  const {
-    children, value, index, ...other
-  } = props;
+function TabPanel({
+  children, value, index, ...other
+}) {
   return (
     <div
       role="tabpanel"

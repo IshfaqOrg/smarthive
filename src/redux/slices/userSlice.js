@@ -29,7 +29,6 @@ export const getUserInfo = createAsyncThunk(
   'getUserInfo',
   async () => {
     const response = await AxiosInstance.get(`${API.BASE_URL}/api/v1/users/info`);
-    console.log(response.data);
     return response.data;
   },
 );
@@ -43,8 +42,8 @@ export const uploadProfileImage = createAsyncThunk(
   },
 );
 const userSlice = createSlice({
-  initialState,
   name: 'userSlice',
+  initialState,
   reducers: {},
   extraReducers: (builder) => {
     builder.addCase(getUserInfo.fulfilled, (state, action) => {

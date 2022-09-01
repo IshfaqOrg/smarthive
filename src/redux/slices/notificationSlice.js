@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import API from '../../constants/RouteConstant/API';
+// import API from '../../constants/RouteConstant/API';
 import AxiosInstance from '../../services/utils/axios';
 
 export const getNotification = createAsyncThunk('getNotification', async ({ rejectWithValue }) => {

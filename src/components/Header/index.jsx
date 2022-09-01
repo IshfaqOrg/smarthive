@@ -9,7 +9,7 @@ import ProfileBar from './components/ProfileBar';
 function Header() {
   return (
     <div className="flex flex-col bg-theme-black w-screen h-screen transition ease-in pt-2">
-      <div className="w-full h-16">
+      <div className="w-full h-20">
         <div className="flex h-full justify-between pl-5 items-center">
           <div>
             <img className="grow-0" src={logo} alt="logo" />

@@ -7,6 +7,7 @@ const initialState = {
   message: '',
   response: null,
 };
+// eslint-disable-next-line consistent-return
 export const sendEmailOTP = createAsyncThunk('sendEmailOTP', async (data, { rejectWithValue }) => {
   try {
     const response = await AxiosInstance.post('auth/send-otp', data);

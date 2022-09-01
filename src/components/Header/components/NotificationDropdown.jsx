@@ -6,14 +6,15 @@ import {
   Paper, Popover, Typography,
 } from '@mui/material';
 import { useSelector, useDispatch } from 'react-redux';
-import { getNotification, makeNotificationSeen } from '../../../redux/slices/notificationSlice';
+import { getNotification } from '../../../redux/slices/notificationSlice';
 
 function NotificationDropdown() {
   const dispatch = useDispatch();
   const [anchorEl, setAnchorEl] = React.useState(null);
   //   const notification = useSelector((state) => state.notifications);
   //   useEffect(() => {
-  //     if (localStorage.getItem('token') && notification.data.length === 0 && !notification.status && notification) {
+  //     if (localStorage.getItem('token')
+  // && notification.data.length === 0 && !notification.status && notification) {
   //     }
   //   }, [localStorage.getItem('token')]);
 
@@ -30,6 +31,7 @@ function NotificationDropdown() {
   useEffect(() => {
     if (!notification.data && localStorage('token') && notification.status && notification) dispatch(getNotification());
   }, [localStorage.getItem('token')]);
+
   return (
     <div className="mr-2 formFields">
       <IconButton id={id} onClick={handleClick}>

@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-props-no-spreading */
 import {
   Box, Tab, Tabs, Typography,
 } from '@mui/material';
@@ -5,6 +6,7 @@ import React from 'react';
 import { makeStyles } from '@material-ui/core';
 import TabPanel from './components/TabPanel';
 import AccountOverView from './components/AccountOverView';
+import ManageUsers from './components/ManageUsers';
 
 const useStyles = makeStyles({
   indicator: {
@@ -34,7 +36,6 @@ function Profile() {
   }
   return (
     <div className="h-full  w-2/3 ">
-
       <Box>
         <Typography align="left" className="!font-body !text-2xl text-slate-200 !font-bold mb-3 !text-left">Profile</Typography>
       </Box>
@@ -57,12 +58,11 @@ function Profile() {
             <AccountOverView />
           </TabPanel>
           <TabPanel value={value} index={1}>
-            Manage users
+            <ManageUsers />
           </TabPanel>
         </Box>
       </div>
     </div>
-
   );
 }
 

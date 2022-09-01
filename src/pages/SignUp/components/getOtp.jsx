@@ -1,10 +1,9 @@
+/* eslint-disable no-unused-vars */
 import {
-  Autocomplete,
   Box,
-  Button, FormControl, InputAdornment, InputBase, ListItemIcon,
-  ListItemText, MenuItem, Paper, Select, TextField,
+  Button, InputBase, Paper, Select, TextField,
 } from '@mui/material';
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import MailOutlineRoundedIcon from '@mui/icons-material/MailOutlineRounded';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import { useFormik, Form, Formik } from 'formik';
@@ -12,7 +11,8 @@ import { useSelector, useDispatch } from 'react-redux';
 // import EmailOutlinedIcon from '@mui/icons-material/EmailOutlined';
 import { LoadingButton } from '@mui/lab';
 import * as Yup from 'yup';
-// import { fillForm, signUpUser, updateUserAtSignup } from '../../../redux/slices/RegisterationSlice';
+// import { fillForm, signUpUser, updateUserAtSignup }
+// from '../../../redux/slices/RegisterationSlice';
 // import { getCountryCode } from '../../../redux/slices/CountrySlice';
 // import CountryList from '../../../utility/countriesWithFlag';
 // import { CssTextField } from './muiComponents';
@@ -52,6 +52,7 @@ function AuthenticationType({ backButtonClicked, formData, setFormData }) {
         ...values,
         ...registerationUserDetails.userEmail && { apporved: true },
       };
+      console.log(data);
     },
   });
   //   },

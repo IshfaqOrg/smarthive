@@ -5,7 +5,7 @@ import {
 } from '@mui/material';
 
 function ModalWindow({
-  open, message, handleClose, handleOpen,
+  open, message, handleClose,
 }) {
   const style = {
     position: 'absolute',

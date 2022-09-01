@@ -1,3 +1,5 @@
+/* eslint-disable no-console */
+/* eslint-disable no-unused-vars */
 import {
   Avatar, Box, Button, Typography,
 } from '@mui/material';
@@ -17,7 +19,7 @@ import { getUserInfo, uploadProfileImage } from '../../../redux/slices/userSlice
 const inputData = [{
   icon: profileIcon,
   alt: 'profile picture',
-  name: 'fullName',
+  name: 'full_name',
   placeholder: 'Your full name...',
   key: 'input 1',
 }, {
@@ -51,11 +53,13 @@ function AccountOverView() {
       console.log(values);
     },
   });
+
   useEffect(() => {
     if (!userDetails.length) {
-      dispatch(getUserInfo);
+      dispatch(getUserInfo());
     }
-  }, []);
+  }, [userDetails]);
+
   useEffect(() => {
     if (userDetails) {
       setImages([{ data_url: userDetails.profile_image }]);
@@ -147,6 +151,7 @@ function AccountOverView() {
                 disabled
                 name={e.name}
                 placeholder={e.placeholder}
+                values={formik.values[e.name]}
               />
 
             </Box>
@@ -159,6 +164,7 @@ function AccountOverView() {
               icon={companyIcon}
               alt="Company Name"
               disabled
+              values={formik.values.company?.company_name}
               name="companyName"
               placeholder="Your company..."
             />
