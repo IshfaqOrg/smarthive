@@ -9,6 +9,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import FileUploadIcon from '@mui/icons-material/FileUpload';
 import { Form, Formik, useFormik } from 'formik';
 import ImageUploading from 'react-images-uploading';
+import { FiImage } from 'react-icons/fi';
+import { HiOutlineUpload } from 'react-icons/hi';
 import InputText from '../../../components/inputs/InputText';
 import profileIcon from '../../../assets/images/icons/Profile.png';
 import emailIcon from '../../../assets/images/icons/Message.png';
@@ -76,7 +78,7 @@ function AccountOverView() {
     dispatch(uploadProfileImage(data));
   };
   return (
-    <Box className="space-y-6 mt-12">
+    <Box className="space-y-12 mt-8">
       <Box className="flex space-x-6">
         {userDetails?.profile_image ? <Avatar src={userDetails?.profile_image} alt="profile avatar" sx={{ width: '35px', height: '35px ' }} />
           : (
@@ -87,12 +89,12 @@ function AccountOverView() {
                 width: 100,
                 height: 100,
 
-                borderWidth: 3,
-                borderColor: '#404656',
+                borderWidth: '2px',
+                borderColor: 'rgb(106, 114, 125)',
                 borderStyle: 'dashed',
               }}
             >
-              <InsertPhotoIcon alt="profile avatar" sx={{ color: '#878f99' }} variant="outlined" />
+              <FiImage alt="profile avatar" style={{ color: '#878f99 ', height: '30px', width: '30px' }} variant="outlined" />
             </Avatar>
           )}
         <Box className="flex flex-col justify-center space-y-3">
@@ -115,17 +117,19 @@ function AccountOverView() {
                 // eslint-disable-next-line no-unused-expressions
                 onClick={(e) => { images.length > 0 ? onImageUpdate(e) : onImageUpload(e); }}
                 sx={{
-                  borderRadius: '8px',
-                  padding: '11px',
+                  borderRadius: '5px',
+                  padding: '8px 18px',
                   '&:hover': { backgroundColor: '#272b30' },
                   backgroundColor: '#272b30',
                 }}
 
               >
-                <FileUploadIcon sx={{ color: '#99a1ac', fontSize: '20px' }} />
-                <span style={{
-                  fontSize: '12px',
-                }}
+                <HiOutlineUpload style={{ color: '#6A727D', fontSize: '20px' }} />
+                <span
+                  style={{
+                    fontSize: '14px',
+                    textTransform: 'none',
+                  }}
                 >
                   Upload Image
                 </span>
@@ -133,16 +137,19 @@ function AccountOverView() {
             )}
 
           </ImageUploading>
-          <Typography variant="h6" className="text-[#99a1ac] !font-thin !text-xs font-body">
+          <Typography variant="h6" className="text-[#747A80] !font-thin !text-xs font-body">
             Max size upto 10MB
 
           </Typography>
         </Box>
       </Box>
-      <Formik>
-        <Form onSubmit={formik.handleSubmit}>
-          <Box className="grid grid-cols-2 space-x-6">
-            {
+      <div className="w-[95%]">
+        {/* <div className="justify-between"> */}
+        <Formik>
+          <Form onSubmit={formik.handleSubmit}>
+            <div className="grid grid-row-2 space-y-6">
+              <Box className="grid grid-cols-2 space-x-6">
+                {
           inputData.map(((e) => (
             <Box key={e.key} sx={{ mb: 2, width: '100%' }}>
               <InputText
@@ -157,20 +164,23 @@ function AccountOverView() {
             </Box>
           )))
         }
-          </Box>
-          <Box className="grid grid-cols-2 space-x-6">
-            <InputPhone />
-            <InputText
-              icon={companyIcon}
-              alt="Company Name"
-              disabled
-              values={formik.values.company?.company_name}
-              name="companyName"
-              placeholder="Your company..."
-            />
-          </Box>
-        </Form>
-      </Formik>
+              </Box>
+              <Box className="grid grid-cols-2 space-x-6">
+                <InputPhone />
+                <InputText
+                  icon={companyIcon}
+                  alt="Company Name"
+                  disabled
+                  values={formik.values.company?.company_name}
+                  name="companyName"
+                  placeholder="Your company..."
+                />
+              </Box>
+            </div>
+          </Form>
+        </Formik>
+      </div>
+      {/* </div> */}
     </Box>
   );
 }

@@ -4,14 +4,24 @@ import {
   Autocomplete, Box, InputBase, Paper,
 } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
+import { makeStyles } from '@material-ui/core';
 import { getCountryCode } from '../../redux/slices/CountrySlice';
 import { CssTextField } from './muiComponents';
 import CountryList from '../../utility/countriesWithFlag';
 
+const useStyles = makeStyles({
+  textFieldRoot: {
+    '&.Mui-focused': {
+      borderColor: 'orange',
+    },
+  },
+});
 function InputPhone({
 
   handleChange, handleBlur, values,
 }) {
+  const classes = useStyles();
+
   const country = useSelector((state) => state.country);
   // eslint-disable-next-line no-unused-vars
   const [selectedCode, setSelectedCode] = useState('');
@@ -90,6 +100,9 @@ function InputPhone({
       <div className="flex flex-row w-full">
         <Paper
           className="w-full !rounded-md"
+          classes={{
+            root: classes.textFieldRoot,
+          }}
           sx={{
             border: 1,
             display: 'flex',
@@ -97,7 +110,7 @@ function InputPhone({
             height: '46px',
             borderColor: '#656669',
             backgroundColor: '#283046',
-            '&:hover': {
+            '&:focus': {
               borderColor: 'orange',
             },
           }}

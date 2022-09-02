@@ -6,8 +6,8 @@ import patternBottom from '../../assets/images/pattern-bottom.png';
 
 function Home() {
   return (
-    <div className="h-screen p-0 m-0 bg-theme-black">
-      <div className="h-full md:flex ">
+    <div className="h-screen p-0 m-0 bg-theme-black ">
+      <div className="h-full md:flex overflow-y-auto">
         <div className="leftSection w-full bg-[#1a1d1f]" />
         <div className="rightSection  w-full h-full relative">
           <div className="md:flex  ">

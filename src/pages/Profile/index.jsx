@@ -15,9 +15,13 @@ const useStyles = makeStyles({
   },
   tabSelected: {
     // backgroundColor: '#e07344',
-    color: 'white',
+    color: '#d0d2d6',
+    fontWeight: 450,
+    textTransform: 'none',
     '&.Mui-selected': {
-      color: '#e09844',
+      fontWeight: 600,
+      color: '#e07344',
+      // background: '-webkit-linear-gradient(#e07344, #e09844)',
     },
   },
 });
@@ -35,13 +39,13 @@ function Profile() {
     };
   }
   return (
-    <div className="h-full  w-2/3 ">
+    <div className="h-full  w-3/4 ">
       <Box>
-        <Typography align="left" className="!font-body !text-2xl text-slate-200 !font-bold mb-3 !text-left">Profile</Typography>
+        <Typography align="left" className="!font-body !text-2xl text-[#d0d2d6] !font-bold !mb-6 !text-left">Profile</Typography>
       </Box>
       <div>
         <Box sx={{ width: '100%' }}>
-          <Box sx={{ borderBottom: 1, borderColor: '#b2b2b2' }}>
+          <Box sx={{ borderBottom: 1, borderColor: '#505466' }}>
             <Tabs
               value={value}
               onChange={handleChange}

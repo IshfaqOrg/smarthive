@@ -9,6 +9,7 @@ import {
 import * as Yup from 'yup';
 import MailRoundedIcon from '@mui/icons-material/MailRounded';
 import { LoadingButton } from '@mui/lab';
+import { makeStyles } from '@material-ui/core';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router';
 import { Link } from 'react-router-dom';
@@ -19,7 +20,22 @@ import ModalWindow from '../../components/Modal/ModalWindow';
 
 const SUPER_ADMIN = 'super_admin';
 
+const useStyles = makeStyles({
+  loadingButton: {
+    color: 'white',
+    '&.Mui-disabled': {
+      color: '#94a3b8 !important',
+      background: 'rgb(163,94,51) !important',
+    },
+    ' &:hover ': {
+      boxShadow: '0 3px 9px rgb(56 57 58), 0 3px 6px rgb(56 57 58)',
+    },
+  },
+});
+
 function Login({ formData }) {
+  const classes = useStyles();
+
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
   const userSelector = useSelector((state) => state.registeration.userDetails);
@@ -202,6 +218,8 @@ function Login({ formData }) {
               inputProps
               className="btn !p-2 !h-12 !text-xs w-full "
               type="submit"
+              classes={{ root: classes.loadingButton }}
+              disabled={!formik.dirty || !formik.isValid}
               variant="contained"
               loading={isLoading}
             >

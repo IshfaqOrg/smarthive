@@ -8,19 +8,34 @@ import {
 } from '@mui/material';
 import { LoadingButton } from '@mui/lab';
 import { Link } from 'react-router-dom';
+import { makeStyles } from '@material-ui/core';
 import profileIcon from '../../assets/images/icons/Profile.png';
 import emailIcon from '../../assets/images/icons/Message.png';
 import companyIcon from '../../assets/images/icons/Globe.png';
 import { fillForm, getUserByCode } from '../../redux/slices/RegisterationSlice';
 
 const industryOptions = [{ label: 'Financial', id: '0' }, { label: 'SLED', id: '1' }, { label: 'Medical', id: '2' }];
+
+const useStyles = makeStyles({
+  loadingButton: {
+    color: 'white',
+    '&.Mui-disabled': {
+      color: '#94a3b8  !important',
+      background: 'rgb(163,94,51) !important',
+    },
+    ' &:hover ': {
+      boxShadow: '0 3px 9px rgb(56 57 58), 0 3px 6px rgb(56 57 58)',
+    },
+  },
+});
+
 function SignUp({
   // eslint-disable-next-line react/prop-types
   handleAuth, formData, setFormData,
 }) {
   const dispatch = useDispatch();
   const registerationData = useSelector((state) => state?.registeration);
-
+  const classes = useStyles();
   // const authSelector = useSelector((state) => state.registeration.authenticate);
   // const userSelector = useSelector(
   //   (state) => state.registeration.userDetails.data,
@@ -137,17 +152,16 @@ function SignUp({
   }, [resetForm, registerationData?.form]);
 
   return (
-    <div className="px-2 mt-14">
+    <div className="px-2 mt-14 w-4/5">
       <div className="intro  mb-3 w-5/6">
         <h4 className="text-2xl font-bold text-white mt-3 font-body">Welcome to Smart Hive</h4>
         <h6 className="text-[#99a1ac] text-sm font-body">The best zero password system to keep our customer secure</h6>
       </div>
 
-      <div className="formFields ">
+      <div className="formFields">
         <Formik>
-
           <Form onSubmit={formik.handleSubmit}>
-            <div className="signupInput justify-center">
+            <div className="signupInput flex flex-col space-y-2 justify-center">
               {inputData.map((e) => (
                 <div className="mt-2" key={e.key}>
                   <Paper
@@ -188,8 +202,6 @@ function SignUp({
                     {formik.touched[e.value] && formik.errors[e.value] ? (
                       formik.errors[e.value]
                     ) : null}
-                    {' '}
-
                   </div>
                 </div>
               ))}
@@ -263,9 +275,11 @@ function SignUp({
                 </div>
               </div>
               <LoadingButton
-                className="btn p-2 h-12 !text-xs"
+                className="btn p-1 h-12 !text-xs"
                 type="submit"
                 variant="contained"
+                classes={{ root: classes.loadingButton }}
+                disabled={!formik.dirty || !formik.isValid}
                 loading={isLoading}
                 sx={{ borderRadius: '9px', width: '100%', marginTop: '1rem' }}
               >
