@@ -30,19 +30,19 @@ function ProfileBar() {
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
+  const open = Boolean(anchorEl);
+  const id = open ? 'simple-popover' : undefined;
   const handleClose = () => {
     setAnchorEl(null);
   };
-  const open = Boolean(anchorEl);
-  const id = open ? 'simple-popover' : undefined;
 
   const userState = useSelector((state) => state.user.userInfo);
 
   useEffect(() => {
-    if (!userState.length) dispatch(getUserInfo());
-    console.log(userState);
+    if (!userState?.id) {
+      dispatch(getUserInfo());
+    }
   }, [userState]);
-
   return (
     <>
       <ButtonBase className="flex " disableRipple id={id} onClick={handleClick}>
@@ -75,20 +75,20 @@ function ProfileBar() {
       >
         <Stack className="p-0  !bg-theme-black">
           <List>
-            <ListItem button classname="p-1" classes={{ button: classes.listItemIcon }}>
-              <Link to="profile" className="flex space-x-3 ">
+            <ListItem button className="p-1" onClick={handleClose} classes={{ button: classes.listItemIcon }}>
+              <Link className="flex space-x-3 " to="profile">
 
                 <FiUser className=" !text-white font-body" variant="outlined" />
 
-                <Typography className="!text-sm !text-white !font-body">Profile</Typography>
+                <Typography className="!text-sm !text-white hover:text-orange-400 !font-body">Profile</Typography>
               </Link>
             </ListItem>
             {userState?.role === CUSTOMER_ADMIN
             && (
-            <ListItem button>
+            <ListItem button onClick={handleClose}>
               <Link to="/integerations" className="flex space-x-3">
                 <FiCheckSquare className=" !text-white font-body" variant="outlined" />
-                <Typography className="!text-sm !text-white !font-body">Integerations</Typography>
+                <Typography className="!text-sm !text-white hover:text-orange-400 !font-body">Integerations</Typography>
               </Link>
             </ListItem>
             )}
@@ -96,9 +96,9 @@ function ProfileBar() {
               button
               onClick={() => dispatch(logoutUser())}
             >
-              <Link to="/" className="flex space-x-3">
+              <Link to="/" className="flex space-x-3" onClick={handleClose}>
                 <FiPower className=" !text-white font-body" variant="outlined" />
-                <Typography className="!text-sm !text-white !font-body">Logout</Typography>
+                <Typography className="!text-sm !text-white hover:text-orange-400 !font-body">Logout</Typography>
               </Link>
             </ListItem>
           </List>

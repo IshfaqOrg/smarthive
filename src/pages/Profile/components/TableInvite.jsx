@@ -25,7 +25,7 @@ const useStyles = makeStyles({
   },
 });
 
-function TableUsers({ userList, isLoading }) {
+function TableInvite({ userList, isLoading }) {
   const classes = useStyles();
   return (
     <>
@@ -43,22 +43,12 @@ function TableUsers({ userList, isLoading }) {
             <TableHead>
               <TableRow>
                 <TableCell classes={{ root: classes.cell }}>
-                  NAME
-                </TableCell>
-                <TableCell
-                  classes={{ root: classes.cell }}
-                >
                   EMAIL
                 </TableCell>
                 <TableCell
                   classes={{ root: classes.cell }}
                 >
-                  ROLE
-                </TableCell>
-                <TableCell
-                  classes={{ root: classes.cell }}
-                >
-                  STATUS
+                  INVITED DATE
                 </TableCell>
                 <TableCell
                   classes={{ root: classes.cell }}
@@ -75,7 +65,6 @@ function TableUsers({ userList, isLoading }) {
                 >
                   <TableCell component="th" scope="row">
                     {row.name}
-
                   </TableCell>
                   <TableCell align="right">{row.email}</TableCell>
                   <TableCell align="right">{row.role}</TableCell>
@@ -90,4 +79,4 @@ function TableUsers({ userList, isLoading }) {
   );
 }
 
-export default TableUsers;
+export default TableInvite;

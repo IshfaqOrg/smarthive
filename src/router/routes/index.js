@@ -30,8 +30,8 @@ const AppRoutes = [
       isPublicRoute: true,
     },
   }, {
-    path: appRoutes.Header,
-    component: lazy(() => import('../../components/Header')),
+    path: appRoutes.Dashboard,
+    component: lazy(() => import('../../pages/Dashboard')),
     nestedRoute: [{
       path: appRoutes.Profile,
       index: false,

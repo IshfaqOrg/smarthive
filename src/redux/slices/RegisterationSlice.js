@@ -121,10 +121,7 @@ export const registerationSlice = createSlice({
     },
     logoutUser: (state) => {
       state.form.resetForm = true;
-      // localStorage.removeItem("userDetails");
-      // localStorage.removeItem("token");
       localStorage.clear();
-      // state.currentUser = {};
       state.authenticate.isLoggedIn = false;
       state.authenticate.token = null;
       state.userDetails.data = { ...initialState.userDetails.data };

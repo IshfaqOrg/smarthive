@@ -25,7 +25,7 @@ const useStyles = makeStyles({
   },
 });
 
-function TableUsers({ userList, isLoading }) {
+function TablePendingUsers({ userList, isLoading }) {
   const classes = useStyles();
   return (
     <>
@@ -53,12 +53,7 @@ function TableUsers({ userList, isLoading }) {
                 <TableCell
                   classes={{ root: classes.cell }}
                 >
-                  ROLE
-                </TableCell>
-                <TableCell
-                  classes={{ root: classes.cell }}
-                >
-                  STATUS
+                  DATE
                 </TableCell>
                 <TableCell
                   classes={{ root: classes.cell }}
@@ -78,7 +73,7 @@ function TableUsers({ userList, isLoading }) {
 
                   </TableCell>
                   <TableCell align="right">{row.email}</TableCell>
-                  <TableCell align="right">{row.role}</TableCell>
+                  <TableCell align="right">{row.date}</TableCell>
                   <TableCell align="right">{row.action}</TableCell>
                 </TableRow>
               ))}
@@ -90,4 +85,4 @@ function TableUsers({ userList, isLoading }) {
   );
 }
 
-export default TableUsers;
+export default TablePendingUsers;

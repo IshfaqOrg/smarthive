@@ -2,11 +2,15 @@
 import {
   Box, Button, Tab, Tabs,
 } from '@mui/material';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { makeStyles } from '@material-ui/core';
 import { AiOutlineMail } from 'react-icons/ai';
+import { useDispatch, useSelector } from 'react-redux';
 import TabPanel from './TabPanel';
 import TableUsers from './TableUsers';
+import { getUsers } from '../../../redux/slices/userSlice';
+import TableInvite from './TableInvite';
+import TablePendingUsers from './TablePendingUsers';
 // import ButtonNav from './ButtonNav';
 
 const useStyles = makeStyles({
@@ -47,7 +51,36 @@ const useStyles = makeStyles({
 
 function ManageUsers() {
   const classes = useStyles();
+  const [approvedUserList, setApprovedUserList] = useState([]);
+  const [pendingUserList, setPendingUserList] = useState([]);
+  const allUserList = useSelector((state) => state.user.users);
+  const userStore = useSelector((state) => state.user);
   const [value, setValue] = React.useState(0);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(getUsers);
+  }, []);
+
+  const filterUserListAfterUpdate = (userList) => {
+    const approvedUsers = [];
+    const pendingUsers = [];
+    userList?.forEach((user) => {
+      // eslint-disable-next-line no-unused-expressions
+      user.approved_by_customer_admin === true
+        ? approvedUsers.push(user)
+        : pendingUsers.push(user);
+    });
+
+    setApprovedUserList(approvedUsers);
+    setPendingUserList(pendingUsers);
+  };
+
+  useEffect(() => {
+    console.log('all user list', allUserList);
+    if (allUserList) filterUserListAfterUpdate(allUserList);
+  }, [allUserList]);
+
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
@@ -66,7 +99,6 @@ function ManageUsers() {
         <Tabs
           value={value}
           onChange={handleChange}
-          wrapped
           aria-label="basic tabs example"
           classes={{
             indicator: classes.indicator,
@@ -95,15 +127,15 @@ function ManageUsers() {
         </Button>
       </Box>
       <TabPanel value={value} index={0}>
-        <TableUsers />
+        <TableUsers userList={approvedUserList} isLoading={userStore.loading} />
+        {/* //complete delete operration as well */}
       </TabPanel>
       <TabPanel value={value} index={1}>
-        <h1>HERE IS second</h1>
+        <TablePendingUsers userList={pendingUserList} isLoading={userStore.loading} />
       </TabPanel>
       <TabPanel value={value} index={2}>
-        <h1>HERE IS second</h1>
+        <TableInvite userList={approvedUserList} isLoading={userStore.loading} />
       </TabPanel>
-
     </Box>
   );
 }

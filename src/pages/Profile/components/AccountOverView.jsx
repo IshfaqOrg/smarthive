@@ -56,11 +56,11 @@ function AccountOverView() {
     },
   });
 
-  useEffect(() => {
-    if (!userDetails.length) {
-      dispatch(getUserInfo());
-    }
-  }, [userDetails]);
+  // useEffect(() => {
+  //   if (!userDetails.length) {
+  //     dispatch(getUserInfo());
+  //   }
+  // }, [userDetails]);
 
   useEffect(() => {
     if (userDetails) {

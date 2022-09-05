@@ -28,10 +28,15 @@ const initialState = {
 export const getUserInfo = createAsyncThunk(
   'getUserInfo',
   async () => {
-    const response = await AxiosInstance.get(`${API.BASE_URL}/api/v1/users/info`);
+    const response = await AxiosInstance.get(`${API.BASE_URL}${API.getUserInfo}`);
     return response.data;
   },
 );
+
+export const getUsers = createAsyncThunk('getUsers', async () => {
+  const response = await AxiosInstance.get(`${API.BASE_URL}${API.getUsers}`);
+  return response.data;
+});
 
 export const uploadProfileImage = createAsyncThunk(
   'inviteUser',
@@ -62,6 +67,22 @@ const userSlice = createSlice({
       state.userInfoLoading = false;
       state.userInfoStatus = false;
       state.userInfoError = false;
+    });
+    builder.addCase(getUsers.fulfilled, (state, action) => {
+      state.users = action.payload.data;
+      state.loading = false;
+      state.status = true;
+      state.getUserError = false;
+    });
+    builder.addCase(getUsers.pending, (state) => {
+      state.loading = true;
+      state.getUserError = false;
+      state.status = false;
+    });
+    builder.addCase(getUsers.rejected, (state, action) => {
+      state.loading = false;
+      state.status = false;
+      state.getUserError = action.error.message?.error || action.error.message;
     });
   },
 });
