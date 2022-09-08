@@ -23,7 +23,7 @@ function Header() {
         </div>
         <Divider className="mt-3 !border-gray-700" />
       </div>
-      <div className="w-full mt-12">
+      <div className="w-full ">
         <div className="flex justify-center">
           <Outlet />
         </div>

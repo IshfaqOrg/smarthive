@@ -8,25 +8,27 @@ import TableHead from '@mui/material/TableHead';
 import CircularProgress from '@mui/material/CircularProgress';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
-import { makeStyles } from '@material-ui/core';
+import { styled } from '@mui/material';
 
-const useStyles = makeStyles({
-  coontainer: {
+const TableContainerComponent = styled(TableContainer)(() => ({
+  '&.MuiTableContainer-root': {
     backgroundColor: '#25292d !important',
     borderRadius: '0px',
     marginTop: '20px',
   },
-  cell: {
+}));
+
+const TableCellComponent = styled(TableCell)(() => ({
+  '&.MuiTableCell-root': {
     borderBottom: '0px',
     fontSize: '12px',
     color: '#d0d2d6',
     padding: '0px 25px',
     height: '38px',
   },
-});
+}));
 
 function TablePendingUsers({ userList, isLoading }) {
-  const classes = useStyles();
   return (
     <>
       {isLoading && userList.length === 0 ? (
@@ -38,28 +40,22 @@ function TablePendingUsers({ userList, isLoading }) {
           />
         </div>
       ) : (
-        <TableContainer classes={{ root: classes.coontainer }} component={Paper}>
+        <TableContainerComponent component={Paper}>
           <Table sx={{ minWidth: 650 }} aria-label="simple table">
             <TableHead>
               <TableRow>
-                <TableCell classes={{ root: classes.cell }}>
+                <TableCellComponent>
                   NAME
-                </TableCell>
-                <TableCell
-                  classes={{ root: classes.cell }}
-                >
+                </TableCellComponent>
+                <TableCellComponent>
                   EMAIL
-                </TableCell>
-                <TableCell
-                  classes={{ root: classes.cell }}
-                >
+                </TableCellComponent>
+                <TableCellComponent>
                   DATE
-                </TableCell>
-                <TableCell
-                  classes={{ root: classes.cell }}
-                >
+                </TableCellComponent>
+                <TableCellComponent>
                   ACTION
-                </TableCell>
+                </TableCellComponent>
               </TableRow>
             </TableHead>
             <TableBody>
@@ -79,7 +75,7 @@ function TablePendingUsers({ userList, isLoading }) {
               ))}
             </TableBody>
           </Table>
-        </TableContainer>
+        </TableContainerComponent>
       )}
     </>
   );

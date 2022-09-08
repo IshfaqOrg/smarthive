@@ -1,6 +1,6 @@
 import {
   Avatar, ButtonBase, Box, List, ListItem,
-  Popover, Typography,
+  Popover, Typography, styled,
 } from '@mui/material';
 import { Stack } from '@mui/system';
 import React, { useEffect } from 'react';
@@ -8,23 +8,25 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { Link } from 'react-router-dom';
 import { FiUser, FiPower, FiCheckSquare } from 'react-icons/fi';
 import { useDispatch, useSelector } from 'react-redux';
-import { makeStyles } from '@material-ui/core';
 import { CUSTOMER_ADMIN, userRole } from '../../../constants/index';
 import avator from '../../../assets/images/avatars/avatar.png';
 import { getUserInfo } from '../../../redux/slices/userSlice';
 import { logoutUser } from '../../../redux/slices/RegisterationSlice';
 
-const useStyles = makeStyles({
-  profilePopover: {
+const PopoverComponent = styled(Popover)(() => ({
+  '&.MuiPopover-root': {
     borderWidth: '0px',
     boxShadow: '0 3px 9px rgb(56 57 58), 0 3px 6px rgb(56 57 58)',
   },
-  listItemIcon: {
+}));
+
+const ListItemComponent = styled(Popover)(() => ({
+  '&.MuiPopover-root': {
     width: '14px',
   },
-});
+}));
+
 function ProfileBar() {
-  const classes = useStyles();
   const dispatch = useDispatch();
   const [anchorEl, setAnchorEl] = React.useState(null);
   const handleClick = (event) => {
@@ -55,7 +57,7 @@ function ProfileBar() {
           <Typography variant="p" className="!text-xs font-body text-[#99a1ac] !relative !bottom-2">{userRole[userState?.role] || (userState?.role?.includes('admin') && 'ADMIN')}</Typography>
         </Box>
       </ButtonBase>
-      <Popover
+      <PopoverComponent
         id={id}
         className="!drop-shadow-[0_35px_35px_rgba(100,100,100,0.25)] "
         open={open}
@@ -71,11 +73,10 @@ function ProfileBar() {
           vertical: 'top',
           horizontal: 'left',
         }}
-        classes={{ paper: classes.profilePopover }}
       >
         <Stack className="p-0  !bg-theme-black">
           <List>
-            <ListItem button className="p-1" onClick={handleClose} classes={{ button: classes.listItemIcon }}>
+            <ListItem button className="p-1" onClick={handleClose}>
               <Link className="flex space-x-3 " to="profile">
 
                 <FiUser className=" !text-white font-body" variant="outlined" />
@@ -103,7 +104,7 @@ function ProfileBar() {
             </ListItem>
           </List>
         </Stack>
-      </Popover>
+      </PopoverComponent>
     </>
   );
 }

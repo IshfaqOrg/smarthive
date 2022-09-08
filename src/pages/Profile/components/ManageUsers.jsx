@@ -1,9 +1,8 @@
 /* eslint-disable react/jsx-props-no-spreading */
 import {
-  Box, Button, Tab, Tabs,
+  Box, Button, styled, Tab, Tabs,
 } from '@mui/material';
 import React, { useEffect, useState } from 'react';
-import { makeStyles } from '@material-ui/core';
 import { AiOutlineMail } from 'react-icons/ai';
 import { useDispatch, useSelector } from 'react-redux';
 import TabPanel from './TabPanel';
@@ -11,20 +10,21 @@ import TableUsers from './TableUsers';
 import { getUsers } from '../../../redux/slices/userSlice';
 import TableInvite from './TableInvite';
 import TablePendingUsers from './TablePendingUsers';
-// import ButtonNav from './ButtonNav';
+import InviteModal from './InviteModal';
 
-const useStyles = makeStyles({
-  indicator: {
-    width: '0px',
-    height: '0px',
+const MuiStyledTabs = styled(Tabs)(() => ({
+  '& .MuiTabs-indicator': {
+    display: 'none',
   },
-  '&.MuiTab-wrapped': {
+  '& .MuiTabs-wrapped': {
     display: 'flex',
     flexWrap: 'wrap',
   },
-  tabSelected: {
+}));
+
+const MuiStyledTab = styled(Tab)(() => ({
+  '&.MuiTab-root': {
     padding: '0px 5px',
-    // backgroundColor: '#e07344',
     color: '#6a727d',
     fontFamily: 'Manrope',
     minHeight: '35px',
@@ -35,22 +35,15 @@ const useStyles = makeStyles({
     border: 'solid 1px #24272d',
     borderRadius: '10px',
     marginRight: '40px',
-    '&.Mui-selected': {
-      color: '#e07344',
-      backgroundColor: '#283046',
-      background: 'linear-gradient(90.66deg, #e0734478 0%, #e0984466 100%)',
-    },
   },
-  buttonText: {
-    color: 'white',
-    fontSize: '14px',
-    fontWeight: 500,
-    textTransform: 'none',
+  '&.Mui-selected': {
+    color: '#e07344',
+    backgroundColor: '#283046',
+    background: 'linear-gradient(90.66deg, #e0734478 0%, #e0984466 100%)',
   },
-});
+}));
 
 function ManageUsers() {
-  const classes = useStyles();
   const [approvedUserList, setApprovedUserList] = useState([]);
   const [pendingUserList, setPendingUserList] = useState([]);
   const allUserList = useSelector((state) => state.user.users);
@@ -93,34 +86,34 @@ function ManageUsers() {
 
   return (
     <Box className="flex flex-col mt-5">
-
       <Box className="w-full flex !flex-row flex-wrap justify-between " sx={{ width: '100%', height: '38px' }}>
-
-        <Tabs
+        <InviteModal open={open} />
+        <MuiStyledTabs
           value={value}
+          TabIndicatorProps={{ display: 'none' }}
           onChange={handleChange}
           aria-label="basic tabs example"
-          classes={{
-            indicator: classes.indicator,
-            root: classes.root,
-          }}
         >
-          <Tab disableRipple label="Current user" {...a11yProps(0)} classes={{ root: classes.tabSelected }} />
-          <Tab disableRipple label="Pending user" {...a11yProps(1)} classes={{ root: classes.tabSelected }} />
-          <Tab disableRipple label="Invited user" {...a11yProps(2)} classes={{ root: classes.tabSelected }} />
-        </Tabs>
+          <MuiStyledTab disableRipple label="Current user" {...a11yProps(0)} />
+          <MuiStyledTab disableRipple label="Pending user" {...a11yProps(1)} />
+          <MuiStyledTab disableRipple label="Invited user" {...a11yProps(2)} />
+        </MuiStyledTabs>
 
         <Button
           disableRipple
-          classes={{ text: classes.buttonText }}
           className=" !font-body"
           sx={{
+            color: 'white',
+            fontSize: '14px',
+            fontWeight: 500,
+            textTransform: 'none',
             border: 'solid 1px #82868b !important',
             borderRadius: '10px',
             width: '110px',
             height: '100%',
             background: 'linear-gradient(90.66deg, #e07344 0%, #e09844 100%)',
           }}
+          // onClick={handleInvite}
         >
           <AiOutlineMail style={{ width: '16px', height: '16px' }} />
           Invite user

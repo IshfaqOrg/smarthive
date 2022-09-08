@@ -2,8 +2,9 @@ const appRoutes = {
   Home: '/',
   Signup: 'signup',
   Login: 'login',
-  Dashboard: '/resilence',
+  Dashboard: '/dashboard',
   Profile: 'profile',
+  Resilence: 'resilence',
 };
 export default appRoutes;
 

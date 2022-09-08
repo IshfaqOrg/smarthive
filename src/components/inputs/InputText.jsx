@@ -1,28 +1,20 @@
-import { makeStyles } from '@material-ui/core';
-import { Box, InputBase, Paper } from '@mui/material';
+import {
+  Box, InputBase, Paper, styled,
+} from '@mui/material';
 import React from 'react';
 
-const useStyles = makeStyles({
-  textFieldRoot: {
-    '&.Mui-selected': {
-      borderColor: 'orange',
-    },
-  },
-  input: {
+const InputBaseComponent = styled(InputBase)(() => ({
+  '&.MuiInputBase-root': {
     color: '#b4b7bd !important',
   },
-});
+}));
 
 function InputText({
   values, handleChange, disabled, handleBlur, icon, name, placeholder,
 }) {
-  const classes = useStyles();
   return (
     <Paper
       className="w-full !rounded-md border-2 !textInput !rounded-l-2xl"
-      classes={{
-        root: classes.textFieldRoot,
-      }}
       sx={{
         border: 1,
         display: 'flex',
@@ -50,18 +42,16 @@ function InputText({
         <img src={icon} alt={placeholder} style={{ alignSelf: 'center' }} />
 
       </Box>
-      <InputBase
+      <InputBaseComponent
         name={name}
         className="bg-[#283046] w-full rounded-lg "
         sx={{ height: '100%', input: { fontSize: '14px', color: 'white' } }}
         value={values}
         disabled={disabled}
         onChange={handleChange}
-        classes={{ disabled: classes.input }}
         onBlur={handleBlur}
         placeholder={placeholder}
       />
-
     </Paper>
   );
 }

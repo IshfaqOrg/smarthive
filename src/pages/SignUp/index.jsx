@@ -6,28 +6,27 @@ import {
   Autocomplete,
   Box, InputBase, Paper, Typography,
 } from '@mui/material';
-import { LoadingButton } from '@mui/lab';
 import { Link } from 'react-router-dom';
-import { makeStyles } from '@material-ui/core';
 import profileIcon from '../../assets/images/icons/Profile.png';
 import emailIcon from '../../assets/images/icons/Message.png';
 import companyIcon from '../../assets/images/icons/Globe.png';
 import { fillForm, getUserByCode } from '../../redux/slices/RegisterationSlice';
+import LoadingButtonComponent from '../../components/inputs/LoadingButtonComponent';
 
 const industryOptions = [{ label: 'Financial', id: '0' }, { label: 'SLED', id: '1' }, { label: 'Medical', id: '2' }];
 
-const useStyles = makeStyles({
-  loadingButton: {
-    color: 'white',
-    '&.Mui-disabled': {
-      color: '#94a3b8  !important',
-      background: 'rgb(163,94,51) !important',
-    },
-    ' &:hover ': {
-      boxShadow: '0 3px 9px rgb(56 57 58), 0 3px 6px rgb(56 57 58)',
-    },
-  },
-});
+// const useStyles = makeStyles({
+//   loadingButton: {
+//     color: 'white',
+//     '&.Mui-disabled': {
+//       color: '#94a3b8  !important',
+//       background: 'rgb(163,94,51) !important',
+//     },
+//     ' &:hover ': {
+//       boxShadow: '0 3px 9px rgb(56 57 58), 0 3px 6px rgb(56 57 58)',
+//     },
+//   },
+// });
 
 function SignUp({
   // eslint-disable-next-line react/prop-types
@@ -35,7 +34,6 @@ function SignUp({
 }) {
   const dispatch = useDispatch();
   const registerationData = useSelector((state) => state?.registeration);
-  const classes = useStyles();
   // const authSelector = useSelector((state) => state.registeration.authenticate);
   // const userSelector = useSelector(
   //   (state) => state.registeration.userDetails.data,
@@ -274,7 +272,7 @@ function SignUp({
                   ) : null}
                 </div>
               </div>
-              <LoadingButton
+              {/* <LoadingButton
                 className="btn p-1 h-12 !text-xs"
                 type="submit"
                 variant="contained"
@@ -284,7 +282,13 @@ function SignUp({
                 sx={{ borderRadius: '9px', width: '100%', marginTop: '1rem' }}
               >
                 Next
-              </LoadingButton>
+              </LoadingButton> */}
+              <LoadingButtonComponent
+                disabled={!formik.dirty || !formik.isValid}
+                loading={isLoading}
+                text="Next"
+                sx={{ marginTop: '1rem' }}
+              />
               <Typography className="relative z-10 " color="#d0d2d6" align="center" variant="body2" mt={2}>
                 Already have an account?
                 <Link to="/login">

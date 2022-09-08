@@ -9,7 +9,6 @@ import {
 import * as Yup from 'yup';
 import MailRoundedIcon from '@mui/icons-material/MailRounded';
 import { LoadingButton } from '@mui/lab';
-import { makeStyles } from '@material-ui/core';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router';
 import { Link } from 'react-router-dom';
@@ -17,25 +16,24 @@ import emailIcon from '../../assets/images/icons/Message.png';
 import { sendEmailOTP } from '../../redux/slices/LoginSlice';
 import { getUserDetailsByToken, loginUser } from '../../redux/slices/RegisterationSlice';
 import ModalWindow from '../../components/Modal/ModalWindow';
+import LoadingButtonComponent from '../../components/inputs/LoadingButtonComponent';
 
 const SUPER_ADMIN = 'super_admin';
 
-const useStyles = makeStyles({
-  loadingButton: {
-    color: 'white',
-    '&.Mui-disabled': {
-      color: '#94a3b8 !important',
-      background: 'rgb(163,94,51) !important',
-    },
-    ' &:hover ': {
-      boxShadow: '0 3px 9px rgb(56 57 58), 0 3px 6px rgb(56 57 58)',
-    },
-  },
-});
+// const useStyles = makeStyles({
+//   loadingButton: {
+//     color: 'white',
+//     '&.Mui-disabled': {
+//       color: '#94a3b8 !important',
+//       background: 'rgb(163,94,51) !important',
+//     },
+//     ' &:hover ': {
+//       boxShadow: '0 3px 9px rgb(56 57 58), 0 3px 6px rgb(56 57 58)',
+//     },
+//   },
+// });
 
 function Login({ formData }) {
-  const classes = useStyles();
-
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
   const userSelector = useSelector((state) => state.registeration.userDetails);
@@ -211,7 +209,7 @@ function Login({ formData }) {
               ) : null}
 
             </div>
-            <LoadingButton
+            {/* <LoadingButton
               sx={{
                 borderRadius: '9px', marginTop: '1rem',
               }}
@@ -225,8 +223,15 @@ function Login({ formData }) {
             >
               Login
 
-            </LoadingButton>
-
+            </LoadingButton> */}
+            <LoadingButtonComponent
+              text="Login"
+              disabled={!formik.dirty || !formik.isValid}
+              loading={isLoading}
+              sx={{
+                marginTop: '1rem',
+              }}
+            />
           </Form>
 
         </Formik>
