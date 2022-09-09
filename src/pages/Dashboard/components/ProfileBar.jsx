@@ -20,11 +20,11 @@ const PopoverComponent = styled(Popover)(() => ({
   },
 }));
 
-const ListItemComponent = styled(Popover)(() => ({
-  '&.MuiPopover-root': {
-    width: '14px',
-  },
-}));
+// const ListItemComponent = styled(Popover)(() => ({
+//   '&.MuiPopover-root': {
+//     width: '14px',
+//   },
+// }));
 
 function ProfileBar() {
   const dispatch = useDispatch();
@@ -57,34 +57,34 @@ function ProfileBar() {
           <Typography variant="p" className="!text-xs font-body text-[#99a1ac] !relative !bottom-2">{userRole[userState?.role] || (userState?.role?.includes('admin') && 'ADMIN')}</Typography>
         </Box>
       </ButtonBase>
-      <PopoverComponent
-        id={id}
-        className="!drop-shadow-[0_35px_35px_rgba(100,100,100,0.25)] "
-        open={open}
-        anchorEl={anchorEl}
-        onClose={handleClose}
-        anchorReference="anchorPosition"
-        anchorPosition={{ top: 70, left: 1300 }}
-        anchorOrigin={{
-          vertical: 'center',
-          horizontal: 'center',
-        }}
-        transformOrigin={{
-          vertical: 'top',
-          horizontal: 'left',
-        }}
-      >
-        <Stack className="p-0  !bg-theme-black">
-          <List>
-            <ListItem button className="p-1" onClick={handleClose}>
-              <Link className="flex space-x-3 " to="profile">
-
-                <FiUser className=" !text-white font-body" variant="outlined" />
-
-                <Typography className="!text-sm !text-white hover:text-orange-400 !font-body">Profile</Typography>
-              </Link>
-            </ListItem>
-            {userState?.role === CUSTOMER_ADMIN
+      {
+        open && (
+        <PopoverComponent
+          id={id}
+          className="!drop-shadow-[0_35px_35px_rgba(100,100,100,0.25)] "
+          open={open}
+          anchorEl={anchorEl}
+          onClose={handleClose}
+          anchorReference="anchorPosition"
+          anchorPosition={{ top: 70, left: 1300 }}
+          anchorOrigin={{
+            vertical: 'center',
+            horizontal: 'center',
+          }}
+          transformOrigin={{
+            vertical: 'top',
+            horizontal: 'left',
+          }}
+        >
+          <Stack className="p-0  !bg-theme-black">
+            <List>
+              <ListItem button className="p-1" onClick={handleClose}>
+                <Link className="flex space-x-3 " to="profile">
+                  <FiUser className=" !text-white font-body" variant="outlined" />
+                  <Typography className="!text-sm !text-white hover:text-orange-400 !font-body">Profile</Typography>
+                </Link>
+              </ListItem>
+              {userState?.role === CUSTOMER_ADMIN
             && (
             <ListItem button onClick={handleClose}>
               <Link to="/integerations" className="flex space-x-3">
@@ -93,18 +93,21 @@ function ProfileBar() {
               </Link>
             </ListItem>
             )}
-            <ListItem
-              button
-              onClick={() => dispatch(logoutUser())}
-            >
-              <Link to="/" className="flex space-x-3" onClick={handleClose}>
-                <FiPower className=" !text-white font-body" variant="outlined" />
-                <Typography className="!text-sm !text-white hover:text-orange-400 !font-body">Logout</Typography>
-              </Link>
-            </ListItem>
-          </List>
-        </Stack>
-      </PopoverComponent>
+              <ListItem
+                button
+                onClick={() => dispatch(logoutUser())}
+              >
+                <Link to="/" className="flex space-x-3" onClick={handleClose}>
+                  <FiPower className=" !text-white font-body" variant="outlined" />
+                  <Typography className="!text-sm !text-white hover:text-orange-400 !font-body">Logout</Typography>
+                </Link>
+              </ListItem>
+            </List>
+          </Stack>
+        </PopoverComponent>
+        )
+      }
+
     </>
   );
 }

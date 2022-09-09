@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
 import {
-  Box, InputBase, Modal, Paper,
+  Box, IconButton, InputBase, Modal, Paper,
 } from '@mui/material';
 import { Form, Formik, useFormik } from 'formik';
 import * as Yup from 'yup';
 import emailIcon from '../../../assets/images/icons/Message.png';
+import closeIcon from '../../../assets/images/icons/closeIcon.png';
 import LoadingButtonComponent from '../../../components/inputs/LoadingButtonComponent';
 
 function InviteModal({
@@ -22,6 +23,9 @@ function InviteModal({
   const formik = useFormik({
     initialValues,
     validationSchema,
+    onSubmit: (values) => {
+      alert(JSON.stringify(values, null, 2));
+    },
   });
 
   const style = {
@@ -54,14 +58,19 @@ function InviteModal({
         aria-describedby="modal-modal-description"
       >
         <Box className="!px-4 !py-4" sx={style}>
-          <div className=" mb-3 w-full">
-            <h4 className="text-2xl !text-left font-thin text-white mt-3 font-body">Invite user</h4>
-            <h6 className="text-[#99a1ac] !text-left text-xs font-body mt-1">Please enter the email address below to invite the user</h6>
+          <div className="flex justify-between w-full mt-3">
+            <div className=" mb-3 w-full">
+              <h4 className="text-2xl !text-left font-thin text-white font-body">Invite user</h4>
+              <h6 className="text-[#99a1ac] !text-left text-xs font-body mt-1">Please enter the email address below to invite the user</h6>
+            </div>
+            <IconButton className="items-center h-full  " onClick={handleClose}>
+              <img src={closeIcon} alt="close-icon" />
+            </IconButton>
           </div>
           <Formik>
             <Form className="w-full" onSubmit={formik.handleSubmit}>
               <Paper
-                className="w-full !rounded-md focus:border-orange-400 !textInput !rounded-l-2xl"
+                className="w-full !rounded-md focus:border-orange- 400 !textInput !rounded-l-2xl"
                 sx={{
                   border: 1,
                   display: 'flex',

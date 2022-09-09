@@ -39,7 +39,7 @@ function DataTablesReOrder({
         onRowClicked={handleDeviceInfo}
         data={data?.data}
         columns={columns}
-        className="react-dataTable"
+        className="react-dataTable react-table-data"
         sortIcon={<ChevronDown size={10} />}
         paginationComponent={(
           <CustomPagination

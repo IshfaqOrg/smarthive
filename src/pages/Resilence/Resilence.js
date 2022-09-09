@@ -297,7 +297,7 @@ function IntegrationResilence() {
         </div>
 
         <div className="flex mt-9 gap-x-8">
-          <div xl={7} lg={6} md={12} className="d-flex flex-divumn w-3/5">
+          <div xl={7} lg={6} md={12} className="flex flex-col gap-y-2 w-3/5 ">
             <div className="flex justify-between">
               <div md={6}>
                 <div className="graph-heading py-1">
@@ -315,7 +315,7 @@ function IntegrationResilence() {
               <div md={6}>
                 {/* <PaginationBasic itemsPerPage={4}/> */}
                 <Link to="/assets">
-                  <Button className="view-all-button">
+                  <Button className="view-all-button themeButton">
                     View All
                     <KeyboardArrowRight sx={{ fontSize: '1pc' }} />
                   </Button>
@@ -341,157 +341,153 @@ function IntegrationResilence() {
               )}
             </div>
           </div>
-          <div xl={5} lg={6} className="w-2/5">
+          <div xl={5} lg={6} className="w-2/5 flex flex-col gap-y-2">
             <div className="graph-heading pl-1 py-1">
-              {' '}
               {gaugeData.label}
-              {' '}
             </div>
-            <Card>
-              <CardBody className="total-assets">
-                <div>
-                  <div className="pr-0">
-                    <div>
-                      <div md={4}>
-                        <p className="graph-title mb-0">{gaugeData.label}</p>
-                        <div className="ring-number">
-                          {/* {Math.round(finalScore || 0)}/850 */}
-                          {Math.round(gaugeData.value || 0)}
-                          /850
-                        </div>
-                      </div>
-                      <div md={8}>
-                        <div className="d-flex flex-direction-row">
-                          <Button
-                            onClick={() => setGaugeData({
-                              label: 'Company Score',
-                              value: devices?.response?.companyAvgScore,
-                            })}
-                            // color="primary"
-                            className={`mr-1 gauge_btn ${gaugeData.label === 'Company Score'
-                              && 'active-btn'
-                            }`}
-                          >
-                            <span className="d-sm-inline-block ml-sm-25 ">
-                              Company Score
-                            </span>
-                          </Button>
-                          <Button
-                            onClick={() => setGaugeData({
-                              label: 'Average score',
-                              value: devices?.response?.avgScore,
-                            })}
-                            // color="primary"
-                            className={`mr-1 gauge_btn ${gaugeData.label === 'Average score'
-                              && 'active-btn'
-                            }`}
-                          >
-                            <span className="d-sm-inline-block ml-sm-25 ">
-                              Average score
-                            </span>
-                          </Button>
-                          <Button
-                            onClick={() => setGaugeData({
-                              label: 'Peer score',
-                              value: devices?.response?.peerScore,
-                            })}
-                            // color="primary"
-                            className={` gauge_btn ${gaugeData.label === 'Peer score' && 'active-btn'
-                            }`}
-                          >
-                            <span className="align-middle d-sm-inline-block ml-sm-25 ">
-                              Peer score
-                            </span>
-                          </Button>
-                        </div>
-                      </div>
-                    </div>
-                    <div>
-                      <div>
-                        {/* {Math.round(finalScore || 0) > 0 &&  */}
-                        <Gauge score={gaugeData.value} />
-                        {/* } */}
-                      </div>
-                    </div>
+            <div className="total-assets p-5 flex flex-col">
+              <div className="pr-0 flex justify-between">
+                <div md={4}>
+                  <p className="graph-title !text-sm">{gaugeData.label}</p>
+                  <div className="ring-number">
+                    {/* {Math.round(finalScore || 0)}/850 */}
+                    {Math.round(gaugeData.value || 0)}
+                    /850
                   </div>
                 </div>
-              </CardBody>
-            </Card>
-          </div>
-        </div>
-        <div>
-          <div md={9} className="mt-auto mb-auto">
-            <div className="graph-heading pl-1 py-1"> Risk Detected </div>
-          </div>
-          <div className="ml-auto mr-3">
-
-            <h5
-              className="view-more"
-              onClick={() => {
-                if (deviceType !== 'All') {
-                  setDeviceType('All');
-                } else {
-                  setDeviceType(devices.response.data[0].deviceType);
-                }
-              }}
-            >
-              {deviceType === 'All' ? <>View less</> : <>View all</>}
-              <span>
-                <ChevronRight size={14} color="#747A80" />
-              </span>
-            </h5>
-          </div>
-        </div>
-
-        <Card>
-          <CardBody className="mb-4 total-assets">
-            <div>
-              <div md={4}>
-                <div>
-                  <div md={9}>
-                    <p className="graph-title mb-0">YOUR CURRENT SCORE</p>
-                    <div className="count-number">
-                      {Math.round(finalScore) || 0}
-                      /850
-                    </div>
-                  </div>
-                  <div md={3}>
-                    <div>
-                      <Badge color="light-danger">0.6%</Badge>
-                      <span>
-                        <Info size={14} />
+                <div md={8}>
+                  <div className="d-flex flex-direction-row">
+                    <Button
+                      onClick={() => setGaugeData({
+                        label: 'Company Score',
+                        value: devices?.response?.companyAvgScore,
+                      })}
+                            // color="primary"
+                      className={`mr-1 gauge_btn ${gaugeData.label === 'Company Score'
+                              && 'active-btn'
+                      }`}
+                    >
+                      <span className="d-sm-inline-block ml-sm-25 ">
+                        Company Score
                       </span>
-                    </div>
+                    </Button>
+                    <Button
+                      onClick={() => setGaugeData({
+                        label: 'Average score',
+                        value: devices?.response?.avgScore,
+                      })}
+                            // color="primary"
+                      className={`mr-1 gauge_btn ${gaugeData.label === 'Average score'
+                              && 'active-btn'
+                      }`}
+                    >
+                      <span className="d-sm-inline-block ml-sm-25 ">
+                        Average score
+                      </span>
+                    </Button>
+                    <Button
+                      onClick={() => setGaugeData({
+                        label: 'Peer score',
+                        value: devices?.response?.peerScore,
+                      })}
+                            // color="primary"
+                      className={` gauge_btn ${gaugeData.label === 'Peer score' && 'active-btn'
+                      }`}
+                    >
+                      <span className="align-middle d-sm-inline-block ml-sm-25 ">
+                        Peer score
+                      </span>
+                    </Button>
                   </div>
                 </div>
-                <AreaGraph />
               </div>
-              <div md={8}>
-                {/* <RiskDetected/> */}
-                <div className="risk-detected">
-                  {devicesAtRisk.loading ? (
-                    <div className="h-100">
-                      <ComponentSpinner />
-                    </div>
-                  ) : (
-                    <DataTablesReOrder
-                      handleDeviceInfo={(data) => {
-                        setModalData(data);
-                        toggleModal();
-                      }}
-                      columns={riskColumn}
-                      conditionalRowStyles={conditionalRowStyles}
-                      data={devicesAtRisk.response}
-                      page={riskDevicePage}
-                      setPage={setRiskDevicePage}
-                    />
-                  )}
+              <div>
+                <div>
+                  {/* {Math.round(finalScore || 0) > 0 &&  */}
+                  <Gauge score={gaugeData.value} />
+                  {/* } */}
                 </div>
               </div>
-            </div>
-          </CardBody>
-        </Card>
 
+            </div>
+          </div>
+        </div>
+
+        {/* ////// */}
+        <div xl={7} lg={6} md={12} className="flex flex-col gap-y-4 w-full mt-8">
+          <div className="flex justify-between">
+            <div className="graph-heading pl-1 py-1"> Risk Detected </div>
+
+            <div className="ml-auto mr-3 ">
+              <h5
+                className="view-all-button themeButton flex"
+                onClick={() => {
+                  if (deviceType !== 'All') {
+                    setDeviceType('All');
+                  } else {
+                    setDeviceType(devices.response.data[0].deviceType);
+                  }
+                }}
+              >
+                {deviceType === 'All' ? <>View less</> : <>View all</>}
+                <span>
+                  <ChevronRight size={14} color="#747A80" />
+                </span>
+              </h5>
+            </div>
+          </div>
+
+          <Card>
+            <CardBody className="mb-4 total-assets p-6">
+              <div className="flex">
+                <div className="flex flex-col w-1/3">
+                  <div className="flex">
+                    <div className="flex flex-col w-80 ">
+                      <p className="graph-title mb-0 !text-base !tracking-normal">YOUR CURRENT SCORE</p>
+                      <div className="count-number-chart text-right">
+                        {Math.round(finalScore) || 0}
+                        /850
+                      </div>
+                    </div>
+
+                    <div>
+                      <div md={3}>
+                        <div className="flex items-end">
+                          <p className="badge">0.6%</p>
+                          <Info color="white" size={14} />
+                        </div>
+                      </div>
+                    </div>
+
+                  </div>
+                  <AreaGraph />
+                </div>
+                <div className="w-2/3">
+                  {/* <RiskDetected/> */}
+                  <div className="risk-detected">
+                    {devicesAtRisk.loading ? (
+                      <div className="h-100">
+                        <ComponentSpinner />
+                      </div>
+                    ) : (
+                      <DataTablesReOrder
+                        handleDeviceInfo={(data) => {
+                          setModalData(data);
+                          toggleModal();
+                        }}
+                        columns={riskColumn}
+                        conditionalRowStyles={conditionalRowStyles}
+                        data={devicesAtRisk.response}
+                        page={riskDevicePage}
+                        setPage={setRiskDevicePage}
+                      />
+                    )}
+                  </div>
+                </div>
+              </div>
+            </CardBody>
+          </Card>
+        </div>
         {/* <Row>
           <Col md={2} className="mt-auto mb-auto">
             <div className="graph-heading pl-1 py-1"> Backup </div>

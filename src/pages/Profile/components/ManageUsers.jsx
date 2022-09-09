@@ -70,7 +70,6 @@ function ManageUsers() {
   };
 
   useEffect(() => {
-    console.log('all user list', allUserList);
     if (allUserList) filterUserListAfterUpdate(allUserList);
   }, [allUserList]);
 
@@ -83,11 +82,13 @@ function ManageUsers() {
       'aria-controls': `simple-tabpanel-${index}`,
     };
   }
-
+  const [inviteModal, setInviteModal] = useState(false);
+  const handleClose = () => {
+    setInviteModal(!inviteModal);
+  };
   return (
     <Box className="flex flex-col mt-5">
       <Box className="w-full flex !flex-row flex-wrap justify-between " sx={{ width: '100%', height: '38px' }}>
-        <InviteModal open={open} />
         <MuiStyledTabs
           value={value}
           TabIndicatorProps={{ display: 'none' }}
@@ -113,7 +114,7 @@ function ManageUsers() {
             height: '100%',
             background: 'linear-gradient(90.66deg, #e07344 0%, #e09844 100%)',
           }}
-          // onClick={handleInvite}
+          onClick={handleClose}
         >
           <AiOutlineMail style={{ width: '16px', height: '16px' }} />
           Invite user
@@ -129,6 +130,7 @@ function ManageUsers() {
       <TabPanel value={value} index={2}>
         <TableInvite userList={approvedUserList} isLoading={userStore.loading} />
       </TabPanel>
+      <InviteModal open={inviteModal} handleClose={handleClose} />
     </Box>
   );
 }

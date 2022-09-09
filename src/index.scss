@@ -3,7 +3,7 @@
 @tailwind utilities;
 @import url("https://fonts.googleapis.com/css2?family=Manrope:wght@700&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Manrope:wght@300&display=swap");
-
+@import "./style/tables/_variables";
 
 .formFields {
   font-family: "Manrope";
@@ -160,5 +160,136 @@ border-radius: 20px !important;
 .no_data_component {
   color: white;
 
-   /* background: linear-gradient(112.83deg, rgb(45, 51, 59) -11.05%,rgb(29, 33, 38) 100%); */
+    // background: linear-gradient(112.83deg, rgb(45, 51, 59) -11.05%,rgb(29, 33, 38) 100%); 
+}
+.react-dataTable {
+  border-radius: 0;
+  .rdt_TableHead {
+    .rdt_TableHeadRow {
+      // background-color: #f3f2f7;
+      border-top: 1px solid;
+      border-color: $border-color;
+      min-height: 0;
+      height: 38px;
+
+      .rdt_TableCol {
+        padding: 0.72rem 1.5rem;
+        .rdt_TableCol_Sortable {
+          color: $body-color;
+          font-weight: bold;
+          font-style: 0.857rem;
+          letter-spacing: 0.5px;
+          text-transform: uppercase;
+          &:hover {
+            color: $body-color;
+          }
+        }
+      }
+    }
+  }
+
+  .rdt_TableBody {
+    .rdt_TableRow {
+      .rdt_TableCell {
+        height: 53px;
+        padding: 0.72rem 1.5rem;
+
+        .column-action {
+          svg {
+            stroke: $body-color;
+          }
+
+          .dropdown-item:hover {
+            svg {
+              stroke: $primary;
+            }
+          }
+
+          .dropdown-item:active {
+            svg {
+              stroke: $white;
+            }
+          }
+        }
+      }
+    }
+  }
+
+  .react-paginate {
+    &.separated-pagination {
+      .page-item:first-child .page-link,
+      .page-item:last-child .page-link {
+        border-radius: 50%;
+      }
+    }
+  }
+}
+.themeButton {
+  background-color: #E18845 !important;
+}
+.react-table-data .rdt_Table{
+  background: transparent !important;
+  background-color: transparent !important;
+}
+.graph-heading {
+  font-family: "Manrope";
+  font-size: 16px !important;
+  line-height: 20px;
+  font-weight: 600;
+}
+
+.total-assets .ring-number {
+    font-family: "Manrope";
+    font-size: 16px;
+    color: #fff;
+    line-height: 24px;
+    font-weight: 700;
+}
+
+
+.gauge_btn {
+  border: 1px solid transparent;
+  font-size: 11px;
+  font-family: "Manrope";
+  font-weight: 500;
+  padding: 10px 2px 10px 2px;
+  letter-spacing: 1px;
+  background: transparent !important;
+  border-color: #e08744 !important;
+  color: #e08744 !important;
+  border-radius: 0.358rem;
+  margin-right: 1rem;
+}
+
+.gauge_btn:hover {
+  -webkit-box-shadow: 0 8px 25px -8px #515064 !important;
+          box-shadow: 0 8px 25px -8px #515064 !important;
+}
+
+.gauge_btn:active {
+  background-color: "transparent !important";
+}
+
+.active-btn {
+  background: linear-gradient(90.66deg, #e07344 0%, #e09844 100%) !important;
+  color: #fff !important;
+}
+.gauge_btn:focus{
+  outline-style: none !important;
+}
+.count-number-chart {
+  font-family: "Manrope";
+  font-size: 32px;
+  color: #e08444;
+  line-height: 1.5;
+  font-weight: 700;
+  text-align: center;
+}
+.badge {
+  padding: 0.1rem 0.4rem;
+  text-align: center;
+  font-size: 12px;
+  border-radius: 0.358rem;
+  color: #ea5455 !important;
+  background-color: rgba(234, 84, 85, 0.12);
 }
