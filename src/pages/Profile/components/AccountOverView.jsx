@@ -77,6 +77,8 @@ function AccountOverView() {
     data.append('image', imageList[0].file);
     dispatch(uploadProfileImage(data));
   };
+  const userState = useSelector((state) => state.user.userInfo);
+
   return (
     <Box className="space-y-12 mt-8">
       <Box className="flex space-x-6">

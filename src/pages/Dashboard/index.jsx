@@ -1,12 +1,12 @@
 import React from 'react';
-import { Outlet } from 'react-router';
+// import { Outlet } from 'react-router';
 import { Divider } from '@mui/material';
 import MenuTabs from './components/MenuTabs';
 import logo from '../../assets/images/logo/logo.png';
 import NotificationDropdown from './components/NotificationDropdown';
 import ProfileBar from './components/ProfileBar';
 
-function Header() {
+function Header(props) {
   return (
     <div className="flex flex-col bg-theme-black w-full h-screen transition ease-in pt-2 overflow-auto">
       <div className="w-full h-20 ">
@@ -25,7 +25,7 @@ function Header() {
       </div>
       <div className="w-full ">
         <div className="flex justify-center">
-          <Outlet />
+          {props.children}
         </div>
       </div>
     </div>

@@ -79,10 +79,11 @@ export const updateUserAtSignup = createAsyncThunk(
 
 export const getUserDetailsByToken = createAsyncThunk(
   'registeration/getUserDetailsByToken',
-  async (token, { rejectWithValue }) => {
+  async ({ token, expireTime }, { rejectWithValue }) => {
     try {
       const response = await AxiosInstance.post(API.getUserDetailsByToken, {
         Authorization: `Bearer ${token}`,
+        expireTime,
       });
       return response.data;
     } catch (err) {

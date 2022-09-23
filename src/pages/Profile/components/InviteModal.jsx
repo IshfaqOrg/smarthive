@@ -4,13 +4,16 @@ import {
 } from '@mui/material';
 import { Form, Formik, useFormik } from 'formik';
 import * as Yup from 'yup';
+import { useDispatch } from 'react-redux';
 import emailIcon from '../../../assets/images/icons/Message.png';
 import closeIcon from '../../../assets/images/icons/closeIcon.png';
 import LoadingButtonComponent from '../../../components/inputs/LoadingButtonComponent';
+import { inviteUser } from '../../../redux/slices/invitedUsers';
 
 function InviteModal({
   open, message, handleClose,
 }) {
+  const dispatch = useDispatch();
   const [isLoading, setIsLoading] = useState(false);
   const initialValues = {
     email: '',
@@ -23,8 +26,10 @@ function InviteModal({
   const formik = useFormik({
     initialValues,
     validationSchema,
-    onSubmit: (values) => {
-      alert(JSON.stringify(values, null, 2));
+    onSubmit: async (values) => {
+      setIsLoading(true);
+      dispatch(inviteUser(values.email));
+      // setIsLoading(false);
     },
   });
 

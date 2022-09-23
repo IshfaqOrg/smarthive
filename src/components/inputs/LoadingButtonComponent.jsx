@@ -30,8 +30,7 @@ function LoadingButtonComponent({ text, loading, disabled }) {
       loading={loading}
       disabled={disabled}
     >
-      {text}
-
+      {loading ? '' : text}
     </LoadingButtonComp>
   );
 }

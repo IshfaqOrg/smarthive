@@ -7,8 +7,6 @@ import {
   Formik, Form, useFormik,
 } from 'formik';
 import * as Yup from 'yup';
-import MailRoundedIcon from '@mui/icons-material/MailRounded';
-import { LoadingButton } from '@mui/lab';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router';
 import { Link } from 'react-router-dom';
@@ -66,8 +64,10 @@ function Login({ formData }) {
         const token = `${tokenIndex[0]}`;
         const expireTime = urlIndex[3].split('&')[0];
         setIsLoading(true);
-        await dispatch(getUserDetailsByToken(token));
-        dispatch(loginUser({ token, expireTime }));
+        const { payload: { token: idToken } } = await dispatch(getUserDetailsByToken(
+          { token, expireTime },
+        ));
+        dispatch(loginUser({ token: idToken, expireTime }));
         setIsLoading(false);
       } else if (
         urlIndex[0] === `${domain}/login#error`
@@ -98,7 +98,7 @@ function Login({ formData }) {
   }, [loginSelector, registrationProcess]);
 
   useEffect(() => {
-    if (authSelector.isLoggedIn) navigate((userSelector.role === SUPER_ADMIN) ? '/dashboard' : '/resilence', { replace: true });
+    if (authSelector.isLoggedIn) navigate((userSelector.role === SUPER_ADMIN) ? '/dashboard' : '/dashboard/resilence', { replace: true });
   }, [authSelector?.isLoggedIn]);
 
   useEffect(() => {

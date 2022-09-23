@@ -28,13 +28,13 @@ const initialState = {
 export const getUserInfo = createAsyncThunk(
   'getUserInfo',
   async () => {
-    const response = await AxiosInstance.get(`${API.BASE_URL}${API.getUserInfo}`);
+    const response = await AxiosInstance.get(`${API.getUserInfo}`);
     return response.data;
   },
 );
 
 export const getUsers = createAsyncThunk('getUsers', async () => {
-  const response = await AxiosInstance.get(`${API.BASE_URL}${API.getUsers}`);
+  const response = await AxiosInstance.get(`${API.getUsers}`);
   return response.data;
 });
 
@@ -46,6 +46,7 @@ export const uploadProfileImage = createAsyncThunk(
     return response.data;
   },
 );
+
 const userSlice = createSlice({
   name: 'userSlice',
   initialState,

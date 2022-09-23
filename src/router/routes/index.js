@@ -39,14 +39,15 @@ const AppRoutes = [
       meta: {
         isPublicRoute: true,
       },
-    }, {
-      path: appRoutes.Resilence,
-      component: lazy(() => import('../../pages/Resilence/Resilence')),
-      meta: {
-        isPublicRoute: true,
-      },
     },
     ],
+    meta: {
+      isPublicRoute: true,
+    },
+  },
+  {
+    path: appRoutes.Resilence,
+    component: lazy(() => import('../../pages/Resilence/Resilence')),
     meta: {
       isPublicRoute: true,
     },

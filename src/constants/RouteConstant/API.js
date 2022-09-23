@@ -4,8 +4,10 @@ const API = {
   getUserByCode: 'auth/invite-code',
   updateUserAtSignup: 'auth/update-signup',
   getUserDetailsByToken: 'auth/get-profile-by-token',
-  getUserInfo: '/api/v1/users/info',
+  getUserInfo: '/users/info',
   getUsers: '/api/v1/users',
+  inviteUser: '/api/v1/users/send-invite',
+  getInvitedUsers: '/api/v1/users/invited',
 };
 
 export default API;
